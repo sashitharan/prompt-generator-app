@@ -987,7 +987,15 @@ Ensure the caption:
     {
       id: 'image-generation',
       name: 'Image Generation Prompt',
-      template: `I need help creating a detailed, effective prompt for AI image generation (DALL-E, Midjourney, Stable Diffusion). Please generate a comprehensive prompt that will produce the exact image I need.
+      template: `**IMPORTANT INSTRUCTIONS FOR AI AGENT:**
+- Read all the provided information below completely before responding
+- DO NOT ask repetitive questions or request additional information unless something is truly unclear
+- After reviewing the specifications, you MUST generate the actual image immediately using your image generation capabilities
+- Generate the image as realistically and photorealistically as possible based on all the specifications provided
+- If you have image generation capabilities, CREATE AND DISPLAY THE IMAGE NOW
+- Focus on generating the highest quality, most realistic image possible using all the details provided
+
+I need you to GENERATE AN IMAGE based on these detailed specifications. Please create the image as realistically as possible following all the requirements below.
 
 **Image Purpose:**
 {purpose} (Social Media Post / Advertisement / Website Hero / Product Photo / Illustration / Concept Art / Marketing Material)
@@ -1016,7 +1024,7 @@ Ensure the caption:
 **Technical Specifications:**
 - Aspect Ratio: {aspect_ratio} (16:9 / 4:3 / 1:1 / 9:16 / Custom: {custom_ratio})
 - Resolution: {resolution} (4K / 8K / High Resolution)
-- Image Quality: {quality} (High Detail / Ultra Realistic / Professional Photography Quality)
+- Image Quality: {quality} (High Detail / Ultra Realistic / Professional Photography Quality / Photorealistic)
 - Format: {format} (JPG / PNG / Transparent Background)
 
 **Specific Details:**
@@ -1046,21 +1054,46 @@ Ensure the caption:
 **Iteration Notes:**
 {iteration_notes} (If this is a revision, what needs to change)
 
-Please generate:
+**FINAL ACTION REQUIRED:**
+After reviewing all the above specifications, you MUST:
+1. **GENERATE THE IMAGE IMMEDIATELY** - Use your image generation capabilities to create the image based on all specifications provided above
+2. Generate the image with maximum realism and photorealism
+3. Ensure the image matches ALL the specifications: style, composition, colors, lighting, brand elements, and technical requirements
+4. Create the image at the highest quality possible
+5. DO NOT ask additional questions - generate the image now using the information provided
+
+**If you have image generation capabilities:**
+- CREATE AND DISPLAY THE IMAGE NOW
+- Make it as photorealistic and realistic as possible
+- Follow every specification exactly as provided
+- Generate immediately without asking for more information
+
+**If you need to provide an optimized prompt for another AI image generator:**
+Please provide:
 1. **Primary Prompt** (concise, optimized for AI image generation)
-   - Format: Subject + Style + Composition + Details + Technical specs
+   - Format: Subject + Style + Composition + Details + Technical specs + "photorealistic, ultra realistic, professional photography quality"
    - Length: Optimized for model requirements (typically 75-150 words)
+   - MUST end with emphasis on realism: "ultra realistic, photorealistic, professional photography quality, high detail"
    
 2. **Detailed Prompt** (if platform allows longer descriptions)
    - Expanded version with all context
+   - MUST emphasize: "Generate this image as realistically as possible"
    
 3. **Negative Prompt** (explicitly state what to avoid)
    
-4. **Prompt Variations** (3 alternative versions for testing)
+4. **Prompt Variations** (3 alternative versions for testing, all emphasizing realism)
    
 5. **Style Keywords** (extracted for easy modification)
    
 6. **Refinement Suggestions** (how to iterate if first result isn't perfect)
+
+**CRITICAL:** The final prompt MUST explicitly include phrases like:
+- "ultra realistic"
+- "photorealistic" 
+- "professional photography quality"
+- "highly detailed"
+- "as realistic as possible"
+- "maximum realism"
 
 Ensure the prompt:
 - Is specific and descriptive
@@ -1069,7 +1102,9 @@ Ensure the prompt:
 - Includes technical parameters
 - References style clearly
 - Specifies composition elements
-- Is optimized for the target AI model`,
+- Is optimized for the target AI model
+- EXPLICITLY INSTRUCTS TO GENERATE THE IMAGE
+- EMPHASIZES MAXIMUM REALISM AND PHOTOREALISM`,
       description: 'Create detailed AI image generation prompts for DALL-E, Midjourney, Stable Diffusion'
     },
     {
