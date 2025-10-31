@@ -72,8 +72,7 @@ function App() {
 
       <footer className="footer">
         <p>
-          Built to help you communicate better with AI agents. 
-          <span className="footer-note">Study how AI works to get better results.</span>
+          Built to help you communicate better with existing AI agents better. 
         </p>
         <p className="copyright">
           © {new Date().getFullYear()} Sashitharan. All rights reserved.
