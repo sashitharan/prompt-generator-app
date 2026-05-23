@@ -1,0 +1,712 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Token Cost Playbook — Developer Edition</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,400;0,500;1,400&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink: #0F0E0C; --ink2: #3D3B36; --ink3: #8A8780;
+  --paper: #F9F6F0; --paper2: #F0EDE5; --paper3: #E5E0D5;
+  --rule: rgba(0,0,0,0.08); --rule-md: rgba(0,0,0,0.14);
+  --gold: #B8860B; --gold-l: #FDF8EC;
+  --teal: #0A5C4A; --teal-l: #E8F5F1; --teal-m: #1D9E75;
+  --red: #8B1A1A; --red-l: #FDF0F0;
+  --blue: #1A3A6B; --blue-l: #EEF3FB;
+  --amber: #7A4A00; --amber-l: #FEF7E6;
+  --display: 'Playfair Display', serif;
+  --body: 'DM Sans', sans-serif;
+  --mono: 'DM Mono', monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --ink: #F0EDE6; --ink2: #B0AA9E; --ink3: #6A6560;
+    --paper: #121110; --paper2: #1A1916; --paper3: #222018;
+    --rule: rgba(255,255,255,0.06); --rule-md: rgba(255,255,255,0.11);
+    --gold: #D4A017; --gold-l: #2A2206;
+    --teal: #5FCCA8; --teal-l: #052E22; --teal-m: #1D9E75;
+    --red: #E88080; --red-l: #2A0808;
+    --blue: #7EB3F0; --blue-l: #0A1E3A;
+    --amber: #F0B84A; --amber-l: #2A1A00;
+  }
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{font-size:16px;-webkit-font-smoothing:antialiased;}
+body{background:var(--paper);color:var(--ink);font-family:var(--body);line-height:1.7;}
+
+/* NAV */
+.sidenav{position:fixed;left:0;top:0;bottom:0;width:220px;background:var(--paper2);border-right:1px solid var(--rule-md);overflow-y:auto;z-index:50;padding:2rem 0 3rem;}
+.nav-logo{font-family:var(--display);font-size:1rem;font-weight:700;color:var(--ink);padding:0 1.25rem 1.5rem;border-bottom:1px solid var(--rule);line-height:1.3;}
+.nav-logo span{display:block;font-size:.7rem;font-family:var(--mono);font-weight:400;color:var(--ink3);margin-top:4px;font-style:normal;}
+.nav-section{padding:.75rem 1.25rem .25rem;font-size:.65rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--ink3);font-family:var(--mono);}
+.nav-item{display:block;padding:.35rem 1.25rem;font-size:.8rem;color:var(--ink2);text-decoration:none;border-left:2px solid transparent;transition:all .15s;}
+.nav-item:hover{color:var(--ink);background:var(--paper3);border-left-color:var(--rule-md);}
+.nav-item.active{color:var(--teal);border-left-color:var(--teal-m);background:var(--teal-l);}
+
+/* MAIN */
+.main{margin-left:220px;max-width:860px;padding:4rem 3.5rem 6rem;}
+@media(max-width:900px){.sidenav{display:none;}.main{margin-left:0;padding:2rem 1.5rem 4rem;}}
+
+/* HERO */
+.hero{border-bottom:2px solid var(--ink);padding-bottom:2.5rem;margin-bottom:3.5rem;}
+.hero-eyebrow{font-family:var(--mono);font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;color:var(--ink3);margin-bottom:.75rem;}
+.hero-title{font-family:var(--display);font-size:2.8rem;font-weight:700;line-height:1.1;letter-spacing:-.02em;margin-bottom:1rem;}
+.hero-title em{font-style:italic;color:var(--teal-m);}
+.hero-sub{font-size:1rem;color:var(--ink2);max-width:600px;line-height:1.65;}
+.budget-strip{display:flex;gap:0;margin-top:2rem;border:1px solid var(--rule-md);border-radius:8px;overflow:hidden;}
+.budget-cell{flex:1;padding:.85rem 1rem;border-right:1px solid var(--rule-md);}
+.budget-cell:last-child{border-right:none;}
+.bc-label{font-size:.65rem;font-family:var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--ink3);margin-bottom:4px;}
+.bc-val{font-size:1.3rem;font-weight:600;color:var(--ink);font-family:var(--mono);}
+.bc-sub{font-size:.7rem;color:var(--ink3);margin-top:2px;}
+
+/* SECTIONS */
+.section{margin-bottom:4rem;scroll-margin-top:2rem;}
+.section-num{font-family:var(--mono);font-size:.65rem;color:var(--ink3);letter-spacing:.1em;text-transform:uppercase;margin-bottom:.5rem;}
+.section-title{font-family:var(--display);font-size:1.7rem;font-weight:700;color:var(--ink);margin-bottom:1rem;line-height:1.2;}
+.section-title em{font-style:italic;color:var(--teal-m);}
+.lead{font-size:1rem;color:var(--ink2);line-height:1.75;margin-bottom:1.5rem;}
+p{font-size:.9rem;color:var(--ink2);line-height:1.75;margin-bottom:1rem;}
+h3{font-family:var(--display);font-size:1.1rem;font-weight:700;color:var(--ink);margin:2rem 0 .6rem;}
+h4{font-size:.85rem;font-weight:600;color:var(--ink);margin:1.25rem 0 .4rem;text-transform:uppercase;letter-spacing:.05em;font-family:var(--mono);}
+
+/* CODE */
+.code{font-family:var(--mono);font-size:.78rem;background:var(--paper2);border:1px solid var(--rule-md);border-radius:6px;padding:.85rem 1.1rem;line-height:1.9;color:var(--ink);white-space:pre-wrap;margin:.75rem 0;overflow-x:auto;}
+.code .g{color:var(--teal-m);}
+.code .r{color:var(--red);}
+.code .a{color:var(--amber);}
+.code .d{color:var(--ink3);}
+
+/* CARDS */
+.card-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:1rem 0;}
+.card{background:var(--paper2);border:1px solid var(--rule);border-radius:10px;padding:1rem 1.1rem;}
+.card.accent-teal{border-top:2px solid var(--teal-m);}
+.card.accent-red{border-top:2px solid var(--red);}
+.card.accent-gold{border-top:2px solid var(--gold);}
+.card.accent-blue{border-top:2px solid var(--blue);}
+.card-title{font-size:.8rem;font-weight:600;color:var(--ink);margin-bottom:.5rem;font-family:var(--mono);text-transform:uppercase;letter-spacing:.05em;}
+.card p{font-size:.82rem;margin:0;}
+
+/* CALLOUTS */
+.callout{display:flex;gap:12px;align-items:flex-start;padding:.9rem 1.1rem;border-radius:8px;margin:1.25rem 0;}
+.callout.warn{background:var(--amber-l);border-left:3px solid var(--amber);}
+.callout.tip{background:var(--teal-l);border-left:3px solid var(--teal-m);}
+.callout.danger{background:var(--red-l);border-left:3px solid var(--red);}
+.callout.info{background:var(--blue-l);border-left:3px solid var(--blue);}
+.callout-icon{font-size:1rem;flex-shrink:0;margin-top:1px;}
+.callout p{font-size:.83rem;margin:0;line-height:1.65;}
+.callout p strong{color:var(--ink);}
+
+/* RULES */
+.rule-list{list-style:none;margin:.75rem 0;}
+.rule-list li{display:flex;align-items:flex-start;gap:10px;padding:.45rem 0;border-bottom:1px solid var(--rule);font-size:.86rem;color:var(--ink2);}
+.rule-list li:last-child{border-bottom:none;}
+.rule-icon{font-size:.9rem;flex-shrink:0;margin-top:1px;}
+.ok{color:var(--teal-m);}
+.no{color:var(--red);}
+.warn-c{color:var(--amber);}
+
+/* TABLE */
+table{width:100%;border-collapse:collapse;font-size:.82rem;margin:1rem 0;}
+th{text-align:left;padding:.55rem .8rem;border-bottom:2px solid var(--rule-md);color:var(--ink3);font-family:var(--mono);font-size:.72rem;letter-spacing:.06em;text-transform:uppercase;font-weight:500;}
+td{padding:.5rem .8rem;border-bottom:1px solid var(--rule);color:var(--ink2);vertical-align:top;}
+tr:last-child td{border-bottom:none;}
+td strong{color:var(--ink);}
+.mono-cell{font-family:var(--mono);font-size:.75rem;}
+
+/* DIVIDER */
+.divider{border:none;border-top:1px solid var(--rule);margin:2.5rem 0;}
+
+/* BADGE */
+.badge{display:inline-block;font-size:.68rem;font-weight:600;padding:2px 8px;border-radius:10px;font-family:var(--mono);vertical-align:middle;margin-left:5px;}
+.b-teal{background:var(--teal-l);color:var(--teal);}
+.b-red{background:var(--red-l);color:var(--red);}
+.b-gold{background:var(--gold-l);color:var(--gold);}
+.b-blue{background:var(--blue-l);color:var(--blue);}
+
+/* COMPACT VISUAL */
+.compact-visual{display:grid;grid-template-columns:1fr 40px 1fr;gap:0;align-items:center;margin:1.5rem 0;}
+.cv-before,.cv-after{background:var(--paper2);border:1px solid var(--rule-md);border-radius:8px;padding:1rem;}
+.cv-arrow{text-align:center;font-size:1.2rem;color:var(--ink3);}
+.cv-label{font-size:.65rem;font-family:var(--mono);text-transform:uppercase;letter-spacing:.08em;color:var(--ink3);margin-bottom:.5rem;}
+.cv-bar{height:8px;border-radius:4px;margin:3px 0;}
+.cv-total{font-size:.75rem;font-family:var(--mono);color:var(--ink2);margin-top:.5rem;}
+.cv-total strong{color:var(--ink);}
+
+/* PROGRESS */
+.progress-row{display:flex;align-items:center;gap:10px;margin:5px 0;}
+.progress-label{font-size:.75rem;color:var(--ink2);min-width:160px;font-family:var(--mono);}
+.progress-track{flex:1;height:5px;background:var(--paper3);border-radius:3px;overflow:hidden;}
+.progress-fill{height:100%;border-radius:3px;}
+.progress-val{font-size:.72rem;color:var(--ink3);font-family:var(--mono);min-width:55px;text-align:right;}
+
+/* FOOTER */
+.footer{margin-top:5rem;padding-top:2rem;border-top:1px solid var(--rule-md);font-size:.75rem;color:var(--ink3);font-family:var(--mono);}
+</style>
+</head>
+<body>
+
+<!-- SIDE NAV -->
+<nav class="sidenav">
+  <div class="nav-logo">Token Cost Playbook<span>Developer Edition · 2026</span></div>
+
+  <div class="nav-section">Budget</div>
+  <a class="nav-item active" href="#budget">Your allocation</a>
+  <a class="nav-item" href="#how-tokens-add-up">How tokens add up</a>
+
+  <div class="nav-section">Context & Cost</div>
+  <a class="nav-item" href="#conversation-history">Conversation history</a>
+  <a class="nav-item" href="#code-tokens">Code token reality</a>
+  <a class="nav-item" href="#compact">/compact explained</a>
+
+  <div class="nav-section">Prompt Engineering</div>
+  <a class="nav-item" href="#prompt-best-practices">Best practices</a>
+  <a class="nav-item" href="#dos-and-donts">Dos and don'ts</a>
+
+  <div class="nav-section">Skills & KB</div>
+  <a class="nav-item" href="#kb-strategy">KB strategy</a>
+  <a class="nav-item" href="#skills-for-code">Using skills for code</a>
+
+  <div class="nav-section">Quick Reference</div>
+  <a class="nav-item" href="#daily-habits">Daily habits</a>
+  <a class="nav-item" href="#cheatsheet">Cheat sheet</a>
+</nav>
+
+<!-- MAIN CONTENT -->
+<main class="main">
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-eyebrow">Internal developer playbook · Confidential</div>
+  <div class="hero-title">Token cost<br><em>done right</em></div>
+  <div class="hero-sub">How tokens accumulate, how conversation history silently inflates your bill, and exactly what to do about it — using the dev-impl-skill, your KB, and disciplined prompting to stay well inside budget.</div>
+  <div class="budget-strip">
+    <div class="budget-cell">
+      <div class="bc-label">Per day</div>
+      <div class="bc-val">$10 USD</div>
+      <div class="bc-sub">S$12.60 / day</div>
+    </div>
+    <div class="budget-cell">
+      <div class="bc-label">Per month</div>
+      <div class="bc-val">$300 USD</div>
+      <div class="bc-sub">S$378 / 30 days</div>
+    </div>
+    <div class="budget-cell">
+      <div class="bc-label">Per year</div>
+      <div class="bc-val">$4,536 SGD</div>
+      <div class="bc-sub">360 working days</div>
+    </div>
+    <div class="budget-cell">
+      <div class="bc-label">Rate</div>
+      <div class="bc-val">1.26</div>
+      <div class="bc-sub">SGD / USD</div>
+    </div>
+  </div>
+</div>
+
+<!-- SECTION 1: BUDGET -->
+<section class="section" id="budget">
+  <div class="section-num">01 / Budget</div>
+  <div class="section-title">What you are <em>actually</em> allocated</div>
+  <p class="lead">Your $10 USD/day budget translates directly into token allowances across the three models. The table below shows exactly how many calls you can make before hitting the ceiling — and the answer is far more generous than most developers assume.</p>
+
+  <table>
+    <tr><th>Model</th><th>Input price</th><th>Output price</th><th>Calls/day (typical)</th><th>Daily spend</th><th>Budget used</th></tr>
+    <tr><td><strong>Haiku 4.5</strong></td><td class="mono-cell">$1/MTok</td><td class="mono-cell">$5/MTok</td><td>~3,300 calls</td><td class="mono-cell">~$0.18</td><td class="mono-cell">1.8%</td></tr>
+    <tr><td><strong>Sonnet 4.6</strong></td><td class="mono-cell">$3/MTok</td><td class="mono-cell">$15/MTok</td><td>~1,100 calls</td><td class="mono-cell">~$0.54</td><td class="mono-cell">5.4%</td></tr>
+    <tr><td><strong>Opus 4.6</strong></td><td class="mono-cell">$5/MTok</td><td class="mono-cell">$25/MTok</td><td>~690 calls</td><td class="mono-cell">~$0.90</td><td class="mono-cell">9.0%</td></tr>
+  </table>
+  <p style="font-size:.75rem;color:var(--ink3);font-family:var(--mono);">Assumes clean sessions — ~1,500 tok input, ~500 tok output per call, 40 calls/day. See section 03 for long-session reality.</p>
+
+  <div class="callout tip">
+    <span class="callout-icon">💡</span>
+    <p>The budget is <strong>not the constraint for clean, disciplined usage.</strong> A developer using Haiku all day for generation tasks and Sonnet for implementation will spend roughly S$0.23–S$1.36 depending on session hygiene. The budget only becomes tight when Opus is used in long, uncompacted sessions.</p>
+  </div>
+</section>
+
+<!-- SECTION 2: HOW TOKENS ADD UP -->
+<section class="section" id="how-tokens-add-up">
+  <div class="section-num">02 / Token accumulation</div>
+  <div class="section-title">How tokens <em>add up</em></div>
+  <p class="lead">A token is roughly 4 characters or ¾ of an English word. But the number you see reported as "input tokens" is never just your message — it is everything the model received in that call.</p>
+
+  <h3>What goes into input tokens every call</h3>
+  <div class="code"><span class="g">Every API call sends ALL of this:</span>
+
+System prompt / skill instructions    ~200–500 tok
+KB sections retrieved                 ~160–1,200 tok
+Your current message                  ~100–600 tok
+<span class="r">Entire conversation history           ~0 to 67,000+ tok ← THE PROBLEM</span>
+────────────────────────────────────────────────────
+Total reported as "input_tokens"      Sum of everything above</div>
+
+  <h3>How history grows through a working day</h3>
+  <div class="code">9:00am  — Turn  1:   ~800 tok   (fresh start, clean)
+10:00am — Turn  8:   ~6,000 tok  (history building)
+11:30am — Turn 18:  ~18,000 tok  (steady accumulation)
+1:00pm  — Turn 28:  ~35,000 tok  (expensive territory)
+3:00pm  — Turn 38:  ~52,000 tok  (most calls cost this much)
+5:30pm  — Turn 48:  <span class="r">~67,000 tok  (what happened in your session today)</span>
+
+<span class="g">Cost of Turn 48 on Haiku:</span>
+  Input:  67,000 ÷ 1,000,000 × $1.00 = $0.067
+  Output:     70 ÷ 1,000,000 × $5.00 = $0.000
+  <span class="r">Total:  $0.067 for one message</span>
+
+<span class="g">What it SHOULD have cost (clean session):</span>
+  Input:     800 ÷ 1,000,000 × $1.00 = $0.0008
+  Output:    400 ÷ 1,000,000 × $5.00 = $0.002
+  Total:  $0.0028 — 24× cheaper</div>
+
+  <div class="callout danger">
+    <span class="callout-icon">⚠️</span>
+    <p><strong>The single most expensive mistake developers make:</strong> keeping one Claude Code session open all day without running <code>/compact</code>. The conversation history compounds silently with every turn. By afternoon a simple "explain this function" call can cost 60× more than it should — not because of the question, but because of the 47 previous turns being re-sent with it.</p>
+  </div>
+</section>
+
+<!-- SECTION 3: CONVERSATION HISTORY -->
+<section class="section" id="conversation-history">
+  <div class="section-num">03 / Conversation history</div>
+  <div class="section-title">The <em>silent</em> cost driver</div>
+  <p class="lead">Conversation history is not a feature of the model — it is a workaround for the model having no persistent memory. The platform replays your entire conversation on every call so the model can "remember" what was said. You pay for every replay.</p>
+
+  <h3>Two scenarios, same 40 calls, very different bills</h3>
+  <div class="card-grid">
+    <div class="card accent-teal">
+      <div class="card-title">✓ Clean sessions</div>
+      <p>New session per task. History resets to zero. Average input per call: ~1,500 tok. 40 calls/day on Haiku: <strong>~$0.18/day</strong></p>
+    </div>
+    <div class="card accent-red">
+      <div class="card-title">✗ One long session</div>
+      <p>History grows all day. Average input per call: ~25,000 tok. Same 40 calls on Haiku: <strong>~$1.08/day</strong> — 6× more expensive.</p>
+    </div>
+  </div>
+
+  <h3>On Sonnet and Opus the gap is even larger</h3>
+  <div class="code">Clean sessions vs one long session (40 calls/day):
+
+Haiku:   $0.18  vs  $1.08   —  6× difference
+Sonnet:  $0.54  vs  $3.24   — <span class="r"> 6× difference</span>
+Opus:    $0.90  vs  $5.40   — <span class="r"> 6× difference, approaches daily budget</span></div>
+
+  <div class="callout warn">
+    <span class="callout-icon">💡</span>
+    <p><strong>Rule of thumb:</strong> If you are in a session that has run more than 20 turns, your input token count is probably 10–20× higher than your actual message. Check with <code>/tokens</code> in Claude Code to see current context size before a call you expect to be expensive.</p>
+  </div>
+</section>
+
+<!-- SECTION 4: CODE TOKEN REALITY -->
+<section class="section" id="code-tokens">
+  <div class="section-num">04 / Code token reality</div>
+  <div class="section-title">Code costs more than <em>you think</em></div>
+  <p class="lead">Code tokenises less efficiently than English prose. The tokeniser was trained on natural language — technical identifiers, camelCase names, package paths, and SQL column names fragment into more tokens per character than plain sentences.</p>
+
+  <h3>Why code is expensive</h3>
+  <div class="code"><span class="g">English prose:</span>
+  "The order service creates a new order record in the database"
+  → ~13 tokens   (1 token per ~4.6 chars — efficient)
+
+<span class="r">Java camelCase method name:</span>
+  processFXEODFixingRequest
+  → ~7 tokens   (1 token per ~3.6 chars — fragmented)
+
+<span class="r">Spring package path:</span>
+  com.dbs.itt.smile.smilemsdistribution.service.impl
+  → ~14 tokens  (1 token per ~3.4 chars — every dot splits)
+
+<span class="r">SQL column name:</span>
+  EQ_EOD_MKT_PRICE
+  → ~6 tokens   (underscore splits at every boundary)
+
+<span class="r">Full class name paste (300 lines):</span>
+  SynapseServiceImpl.java full file
+  → ~2,400–3,600 tokens depending on content</div>
+
+  <h3>The file paste problem — quantified</h3>
+  <table>
+    <tr><th>What you paste</th><th>Approx tokens</th><th>What you needed</th><th>Wasted tokens</th></tr>
+    <tr><td>Full 300-line Java file</td><td class="mono-cell">~2,800 tok</td><td>One 20-line method</td><td class="mono-cell r">~2,600 tok</td></tr>
+    <tr><td>Full 200-line service</td><td class="mono-cell">~1,900 tok</td><td>Method signature only</td><td class="mono-cell r">~1,850 tok</td></tr>
+    <tr><td>Full stack trace</td><td class="mono-cell">~800 tok</td><td>Error message + line</td><td class="mono-cell r">~750 tok</td></tr>
+    <tr><td>Full git diff</td><td class="mono-cell">~3,200 tok</td><td>Filtered diff</td><td class="mono-cell r">~2,600 tok</td></tr>
+    <tr><td>10-column DB schema</td><td class="mono-cell">~120 tok</td><td>2 relevant columns</td><td class="mono-cell r">~96 tok</td></tr>
+  </table>
+
+  <h3>How to cut code input tokens</h3>
+  <ul class="rule-list">
+    <li><span class="rule-icon ok">✓</span><span>Paste only the method or function — not the whole file. If you need context, add the method signature of the caller only.</span></li>
+    <li><span class="rule-icon ok">✓</span><span>For errors: paste the error message and line number only. Not the full stack trace. The model does not need 40 frames to find the cause.</span></li>
+    <li><span class="rule-icon ok">✓</span><span>For schemas: paste only the columns relevant to the task. "Here are the 3 fields involved" beats pasting the full 20-column table definition.</span></li>
+    <li><span class="rule-icon ok">✓</span><span>For git diffs: pre-filter with <code>git diff -- '*.java' ':!*.lock'</code> before pasting. Removes generated files and whitespace noise.</span></li>
+    <li><span class="rule-icon no">✗</span><span>Never paste the full file "for context." Reference it by KB file + section heading instead if it is in your KB.</span></li>
+    <li><span class="rule-icon no">✗</span><span>Never paste the entire stack trace for a simple NullPointerException — the error line and the offending method are sufficient.</span></li>
+  </ul>
+</section>
+
+<!-- SECTION 5: COMPACT -->
+<section class="section" id="compact">
+  <div class="section-num">05 / /compact</div>
+  <div class="section-title">Your most powerful <em>cost tool</em></div>
+  <p class="lead"><code>/compact</code> is a Claude Code command that summarises your entire conversation history into a compressed version, then replaces the full history with that summary. The model retains the gist of what was discussed but the token count resets to near-zero.</p>
+
+  <h3>What happens when you run /compact</h3>
+  <div class="compact-visual">
+    <div class="cv-before">
+      <div class="cv-label">Before /compact</div>
+      <div class="cv-bar" style="width:100%;background:var(--red);opacity:.7;height:12px;"></div>
+      <div class="cv-bar" style="width:100%;background:var(--red);opacity:.5;height:10px;"></div>
+      <div class="cv-bar" style="width:100%;background:var(--red);opacity:.4;height:9px;"></div>
+      <div class="cv-bar" style="width:95%;background:var(--red);opacity:.3;height:8px;"></div>
+      <div class="cv-bar" style="width:90%;background:var(--red);opacity:.25;height:7px;"></div>
+      <div class="cv-total">History: <strong>~67,000 tok</strong><br>Each call re-sends all of this</div>
+    </div>
+    <div class="cv-arrow">→</div>
+    <div class="cv-after">
+      <div class="cv-label">After /compact</div>
+      <div class="cv-bar" style="width:20%;background:var(--teal-m);height:12px;"></div>
+      <div class="cv-total">Summary: <strong>~3,000 tok</strong><br>Context preserved, cost reset</div>
+    </div>
+  </div>
+
+  <h3>The maths of compacting</h3>
+  <div class="code"><span class="d">-- YOUR SITUATION TODAY --</span>
+Session history: ~67,000 tok
+
+Cost to run /compact (one-time):
+  Input:  67,000 tok × $1.00/MTok (Haiku) = $0.067
+  Output:  3,000 tok × $5.00/MTok (Haiku) = $0.015
+  One-time compaction cost:                  $0.082
+
+Cost per call BEFORE /compact:  $0.067
+Cost per call AFTER  /compact:  $0.0035
+
+<span class="g">Breakeven: 2 calls after compacting and you are already ahead</span>
+<span class="g">20 more calls after compacting:</span>
+  Without: 20 × $0.067  = $1.34
+  With:    20 × $0.0035 = $0.07
+  Saving:                 $1.27 on Haiku alone</div>
+
+  <h3>When to run /compact</h3>
+  <ul class="rule-list">
+    <li><span class="rule-icon ok">✓</span><span>After a long planning or design discussion before switching to implementation</span></li>
+    <li><span class="rule-icon ok">✓</span><span>Around every 20–25 turns as a proactive habit — do not wait until the session is bloated</span></li>
+    <li><span class="rule-icon ok">✓</span><span>When you are about to start a new sub-task within the same session</span></li>
+    <li><span class="rule-icon ok">✓</span><span>Before a call you expect to generate a long output — compact first to reduce the input side</span></li>
+    <li><span class="rule-icon no">✗</span><span>Mid-debug when you need the model to reference the exact error message from 3 turns ago</span></li>
+    <li><span class="rule-icon no">✗</span><span>When the precise wording of a previous output matters to the next call</span></li>
+    <li><span class="rule-icon no">✗</span><span>At the very start of a session — nothing meaningful to compact yet</span></li>
+  </ul>
+
+  <div class="callout tip">
+    <span class="callout-icon">💡</span>
+    <p><strong>Even better than /compact: new sessions per task.</strong> Starting a fresh session costs nothing and resets history to zero immediately. Use /compact for tasks that naturally run long. Use new sessions for distinct task switches — finish implementing feature A, close the session, open a new one for feature B.</p>
+  </div>
+</section>
+
+<!-- SECTION 6: PROMPT BEST PRACTICES -->
+<section class="section" id="prompt-best-practices">
+  <div class="section-num">06 / Prompt engineering</div>
+  <div class="section-title">Best practices that <em>cut cost</em></div>
+  <p class="lead">Good prompting is not just about getting better answers — it directly reduces input and output token counts. The techniques below consistently produce more accurate results at lower cost.</p>
+
+  <h3>Output format pinning — the highest ROI technique</h3>
+  <p>Specifying the exact output format is the single most effective cost-reduction technique. Without a format constraint, models narrate, hedge, and wrap code in prose. With one, the output is dense and direct.</p>
+  <div class="code"><span class="r">❌ Open output — expensive:</span>
+"Explain what is wrong and how to fix it with examples"
+→ 400–800 tok output (prose explanation + example + summary)
+
+<span class="g">✓ Pinned output — cheap:</span>
+"Output: (1) root cause one sentence (2) fix code only (3) why two sentences"
+→ 80–150 tok output</div>
+
+  <h3>Length constraints</h3>
+  <div class="code"><span class="g">✓ Always add explicit caps:</span>
+"Max 3 bullets"
+"One sentence"
+"Code only, no explanation"
+"Max 150 words"
+"Output JSON only — no prose"
+
+<span class="d">These work reliably. The model respects them.
+Without them the model defaults to verbose.</span></div>
+
+  <h3>Positive framing beats negative lists</h3>
+  <div class="code"><span class="r">❌ Verbose negative framing (uses tokens to describe what NOT to do):</span>
+"Do not include prose, do not add markdown headers,
+do not summarise at the end, do not repeat the question"
+
+<span class="g">✓ Positive framing (half the tokens, same result):</span>
+"Output JSON array only"</div>
+
+  <h3>Role in system prompt — not in every message</h3>
+  <div class="code"><span class="r">❌ Re-stating role in every message (+80–200 tokens each time):</span>
+"You are a senior Java developer with expertise in Spring Boot.
+Please review the following code..."
+
+<span class="g">✓ Role stated once in SKILL.md system prompt:</span>
+SKILL.md: "You are a senior Java developer. Be terse. Prefer code over prose."
+Message:  "Review this method for transaction handling"</div>
+
+  <h3>Chain of thought — only when you need it</h3>
+  <div class="code">Chain-of-thought ("think step by step") costs 100–400 extra output tokens.
+Invoke it ONLY for:
+  - Multi-step reasoning problems
+  - Mathematical calculations
+  - Complex logic tracing
+
+<span class="g">For most developer tasks, skip it:</span>
+"Which regex matches email?" → just ask, no CoT needed
+"Derive the regex step by step" → CoT only if you need to audit the reasoning</div>
+</section>
+
+<!-- SECTION 7: DOS AND DONTS -->
+<section class="section" id="dos-and-donts">
+  <div class="section-num">07 / Rules</div>
+  <div class="section-title">Dos and <em>don'ts</em></div>
+
+  <h4>Always do</h4>
+  <ul class="rule-list">
+    <li><span class="rule-icon ok">✓</span><span><strong>Start a new session per distinct task.</strong> Implementation of feature A and debugging of feature B are different tasks — different sessions.</span></li>
+    <li><span class="rule-icon ok">✓</span><span><strong>Run /compact proactively at turn 20–25.</strong> Do not wait until the session is bloated. Compact before it becomes expensive.</span></li>
+    <li><span class="rule-icon ok">✓</span><span><strong>Paste only the method, not the file.</strong> Extract the specific function, its signature, and its direct dependencies. Nothing else.</span></li>
+    <li><span class="rule-icon ok">✓</span><span><strong>Reference KB by file AND section heading.</strong> <code>kb/style/kafka-conventions.md → '## Kafka conventions'</code> — not the file alone.</span></li>
+    <li><span class="rule-icon ok">✓</span><span><strong>Append an output constraint to every prompt.</strong> "Code only", "JSON only", "max 3 bullets", "one sentence" — always.</span></li>
+    <li><span class="rule-icon ok">✓</span><span><strong>Use Haiku for generation tasks, Sonnet for reasoning.</strong> Boilerplate, unit tests, formatting → Haiku. Implementation, debugging, explanation → Sonnet.</span></li>
+    <li><span class="rule-icon ok">✓</span><span><strong>Try Sonnet before escalating to Opus.</strong> If Sonnet's answer is wrong, escalate to Opus with Sonnet's failed output as context — not a fresh explanation.</span></li>
+  </ul>
+
+  <h4>Never do</h4>
+  <ul class="rule-list">
+    <li><span class="rule-icon no">✗</span><span><strong>Never paste a full file for context.</strong> Reference the KB. If the code is not in the KB, paste the function only — not the surrounding 280 lines.</span></li>
+    <li><span class="rule-icon no">✗</span><span><strong>Never paste a raw git diff.</strong> Pre-filter to source files only. Remove lock files, generated files, and whitespace-only changes before sending.</span></li>
+    <li><span class="rule-icon no">✗</span><span><strong>Never paste a full stack trace.</strong> Paste the error message, the exception type, and the line number. The model does not need 40 stack frames.</span></li>
+    <li><span class="rule-icon no">✗</span><span><strong>Never ask "review everything."</strong> Scope reviews to one dimension: style OR logic OR security. Separate calls, separate KB sections.</span></li>
+    <li><span class="rule-icon no">✗</span><span><strong>Never re-describe the output format in every message.</strong> Put it in your SKILL.md once and reference it. Repetition wastes tokens every single call.</span></li>
+    <li><span class="rule-icon no">✗</span><span><strong>Never use Opus as a first attempt.</strong> It is 5× more expensive than Haiku and 1.7× more than Sonnet. Start on the cheaper model and escalate only on failure.</span></li>
+    <li><span class="rule-icon no">✗</span><span><strong>Never inject a directory listing for the model to "discover" files.</strong> That is the retrieval layer's job. Only inject retrieved content — not file paths.</span></li>
+  </ul>
+</section>
+
+<!-- SECTION 8: KB STRATEGY -->
+<section class="section" id="kb-strategy">
+  <div class="section-num">08 / Knowledge base</div>
+  <div class="section-title">KB strategy for <em>developers</em></div>
+  <p class="lead">Your knowledge base is the most powerful tool for keeping input tokens low. When information lives in the KB and is retrieved by section, the model reads 20–50 lines. When you paste the same information in the prompt, you pay full price every call.</p>
+
+  <h3>What belongs in the KB</h3>
+  <div class="card-grid">
+    <div class="card accent-teal">
+      <div class="card-title">Put in KB</div>
+      <p>API contracts, data models, sequence flows, error handling rules, team coding standards, test patterns, JIRA story templates, ADRs</p>
+    </div>
+    <div class="card accent-red">
+      <div class="card-title">Never put in KB</div>
+      <p>Actual source code files (reference them, don't embed), credentials, per-task notes, outputs the model generates</p>
+    </div>
+  </div>
+
+  <h3>The file and section referencing rule</h3>
+  <div class="code"><span class="r">❌ File path only — model scans the whole file:</span>
+"Refer to kb/style/springboot-layer-conventions.md"
+→ model reads all 34 lines whether relevant or not
+
+<span class="g">✓ File path AND section heading — model focuses:</span>
+"Refer to '## Spring Boot 3.5 application layer conventions'
+ in kb/style/springboot-layer-conventions.md"
+→ model reads only that section</div>
+
+  <h3>Keep KB files under 100 lines</h3>
+  <p>Most retrieval systems return whole files when they match a query. A 400-line file means 400 lines injected even when 30 are relevant. A 60-line file means 60 lines injected — always. The style guide we built follows this: 15 separate files averaging 35 lines each, rather than one 575-line monolith.</p>
+
+  <h3>Add an INDEX.md per domain</h3>
+  <div class="code"># Orders domain — navigation index
+
+| Topic            | File                              | Section                      |
+|------------------|-----------------------------------|------------------------------|
+| API contracts    | tech-design/orders/api.md         | ## POST /orders API contract |
+| Data model       | tech-design/orders/data-model.md  | ## Order data model          |
+| Error handling   | tech-design/orders/errors.md      | ## Error states              |
+| Kafka topic      | tech-design/orders/kafka.md       | ## Order creation event      |
+
+<span class="g">Retrieve this INDEX first. Then retrieve only the section you need.</span>
+<span class="d">Cost: ~80 tokens for the index · then ~160 tokens for one section</span>
+<span class="d">vs: ~2,400 tokens for the full design doc</span></div>
+</section>
+
+<!-- SECTION 9: SKILLS FOR CODE -->
+<section class="section" id="skills-for-code">
+  <div class="section-num">09 / Using skills</div>
+  <div class="section-title">The <em>dev-impl-skill</em> against your code</div>
+  <p class="lead">The dev-impl-skill installed at <code>.claude/skills/dev-impl-skill/</code> enforces the KB referencing discipline, model selection, and output constraints automatically — so you do not have to remember them on every call.</p>
+
+  <h3>How the skill helps with code token cost</h3>
+  <ul class="rule-list">
+    <li><span class="rule-icon ok">✓</span><span><strong>Pre-selects the model for you.</strong> Boilerplate → Haiku. Implementation → Sonnet. Debug → Sonnet first, Opus on escalation. No manual switching needed.</span></li>
+    <li><span class="rule-icon ok">✓</span><span><strong>Enforces KB section referencing.</strong> The prompt templates in the skill are built around <code>refer to '## Section' in file.md</code> — not file dumps.</span></li>
+    <li><span class="rule-icon ok">✓</span><span><strong>Appends output constraints automatically.</strong> "Output the function only. No explanation, no prose." is in every implementation template.</span></li>
+    <li><span class="rule-icon ok">✓</span><span><strong>The style folder is embedded.</strong> <code>style/java-naming-conventions.md</code> is 33 lines. Retrieved by section. Never 575 lines of a monolithic guide.</span></li>
+    <li><span class="rule-icon ok">✓</span><span><strong>Escalation template includes Sonnet output.</strong> When you escalate to Opus, you paste Sonnet's failed answer — giving Opus richer context without re-explaining the problem.</span></li>
+  </ul>
+
+  <h3>Real example — your FX EOD fixing prompt</h3>
+  <div class="code"><span class="d">-- WHAT YOU SENT (good prompt, ~500 tok) --</span>
+"Enhance FX EOD Fixing Logic in processFXEODFixingRequest..."
+
+<span class="r">-- WHAT THE SESSION ADDED INVISIBLY (~66,862 tok history) --</span>
+Everything from this entire conversation since morning
+
+<span class="g">-- WHAT IT SHOULD HAVE BEEN WITH THE SKILL --</span>
+New session + skill invoked:
+  System: dev-impl-skill loaded           ~400 tok
+  KB:     refer to '## FX EOD data model' ~150 tok
+  KB:     refer to '## Inversion logic'   ~120 tok
+  Your implementation request:            ~500 tok
+  ──────────────────────────────────────────────────
+  Total input:                          ~1,170 tok
+  Cost on Sonnet: $0.0035  vs  $0.20 in long session
+  Saving: 57× cheaper for the same task</div>
+
+  <h3>Invoking the skill in Claude Code</h3>
+  <div class="code"><span class="g">Option 1 — Automatic (preferred)</span>
+Just describe the task naturally. Claude reads the description
+from SKILL.md and loads it automatically:
+
+  "implement the processFXEODFixingRequest method"
+  → skill auto-invokes because description matches
+
+<span class="g">Option 2 — Manual slash command</span>
+  /dev-impl-skill
+
+<span class="g">Option 3 — Check available skills</span>
+  /    (shows all installed skills with autocomplete)</div>
+
+  <h3>Skill location options</h3>
+  <table>
+    <tr><th>Location</th><th>Scope</th><th>Best for</th></tr>
+    <tr><td class="mono-cell">~/.claude/skills/</td><td>All your projects</td><td>Personal workflows you use everywhere</td></tr>
+    <tr><td class="mono-cell">.claude/skills/ (in repo)</td><td>This project only</td><td>Team-shared, project-specific skills</td></tr>
+  </table>
+</section>
+
+<!-- SECTION 10: DAILY HABITS -->
+<section class="section" id="daily-habits">
+  <div class="section-num">10 / Daily habits</div>
+  <div class="section-title">A <em>structured</em> working day</div>
+  <p class="lead">The biggest cost savings come from session discipline — not from individual prompt optimisation. Here is a pattern that keeps you well inside the $10/day budget regardless of how heavily you use the models.</p>
+
+  <div class="code"><span class="g">9:00am  — SESSION 1: Morning planning</span>
+  Model:   Haiku
+  Task:    Read JIRA stories, generate boilerplate, plan sprint
+  Compact: Not needed — session is short
+  End:     Close when planning is done. New session for coding.
+
+<span class="g">10:00am — SESSION 2: Feature A implementation</span>
+  Model:   Sonnet (implementation), Haiku (unit tests)
+  Task:    Implement, write tests, refactor
+  Compact: Run at turn ~20 if session runs long
+  End:     Close when feature A is complete and committed.
+
+<span class="g">1:00pm  — SESSION 3: Feature B or debugging</span>
+  Model:   Sonnet (debug first), Opus only if Sonnet fails
+  Task:    New feature or fix from morning's PR feedback
+  Compact: Run before switching from debug to implementation
+  End:     Close at natural task boundary.
+
+<span class="g">3:30pm  — SESSION 4: Code review</span>
+  Model:   Haiku (style), Sonnet (logic/security)
+  Task:    Review PRs using code-review pipeline
+  Compact: Usually not needed — review sessions are short
+  End:     Close after reviews submitted.
+
+<span class="g">5:00pm  — SESSION 5: Wrap-up (optional)</span>
+  Model:   Haiku
+  Task:    Retro notes, JIRA updates, closing tickets
+  End:     End of day.
+
+<span class="d">─────────────────────────────────────────────────────</span>
+<span class="g">Estimated daily spend:  ~S$1.20–S$2.50  (12–25% of daily budget)</span>
+<span class="d">Budget remaining:       ~S$10.10–S$11.40 unused</span></div>
+</section>
+
+<!-- SECTION 11: CHEAT SHEET -->
+<section class="section" id="cheatsheet">
+  <div class="section-num">11 / Quick reference</div>
+  <div class="section-title">The <em>cheat sheet</em></div>
+
+  <h3>Model selector</h3>
+  <table>
+    <tr><th>Task</th><th>Model</th><th>Why</th></tr>
+    <tr><td>Boilerplate, unit tests, formatting, publishing</td><td class="mono-cell">Haiku</td><td>Templated — no reasoning needed</td></tr>
+    <tr><td>Implementation, integration tests, explanation, refactoring</td><td class="mono-cell">Sonnet</td><td>Reasoning against spec</td></tr>
+    <tr><td>Debug first attempt</td><td class="mono-cell">Sonnet</td><td>Try cheap first</td></tr>
+    <tr><td>Debug escalation (Sonnet failed)</td><td class="mono-cell">Opus</td><td>Add Sonnet output as context</td></tr>
+    <tr><td>Architecture decision</td><td class="mono-cell">Opus</td><td>Multi-dimensional trade-off</td></tr>
+  </table>
+
+  <h3>Token cost per call (clean session)</h3>
+  <table>
+    <tr><th>Task</th><th>Model</th><th>Input tok</th><th>Output tok</th><th>SGD/call</th></tr>
+    <tr><td>Boilerplate gen</td><td class="mono-cell">Haiku</td><td class="mono-cell">~600</td><td class="mono-cell">~300</td><td class="mono-cell">~S$0.003</td></tr>
+    <tr><td>Unit test gen</td><td class="mono-cell">Haiku</td><td class="mono-cell">~800</td><td class="mono-cell">~250</td><td class="mono-cell">~S$0.003</td></tr>
+    <tr><td>Implementation</td><td class="mono-cell">Sonnet</td><td class="mono-cell">~1,200</td><td class="mono-cell">~500</td><td class="mono-cell">~S$0.014</td></tr>
+    <tr><td>Debug (Sonnet)</td><td class="mono-cell">Sonnet</td><td class="mono-cell">~900</td><td class="mono-cell">~200</td><td class="mono-cell">~S$0.009</td></tr>
+    <tr><td>Debug (Opus escalation)</td><td class="mono-cell">Opus</td><td class="mono-cell">~1,400</td><td class="mono-cell">~300</td><td class="mono-cell">~S$0.019</td></tr>
+    <tr><td>Code review Stage 1</td><td class="mono-cell">Haiku</td><td class="mono-cell">~1,640</td><td class="mono-cell">~120</td><td class="mono-cell">~S$0.004</td></tr>
+    <tr><td>Code review Stage 2</td><td class="mono-cell">Sonnet</td><td class="mono-cell">~1,080</td><td class="mono-cell">~200</td><td class="mono-cell">~S$0.006</td></tr>
+  </table>
+
+  <h3>When history bloats — cost per call reality</h3>
+  <div class="progress-row"><div class="progress-label">Fresh (turn 1) ~800 tok</div><div class="progress-track"><div class="progress-fill" style="width:1%;background:var(--teal-m)"></div></div><div class="progress-val">$0.001</div></div>
+  <div class="progress-row"><div class="progress-label">Turn 10 ~8,000 tok</div><div class="progress-track"><div class="progress-fill" style="width:12%;background:var(--teal-m)"></div></div><div class="progress-val">$0.008</div></div>
+  <div class="progress-row"><div class="progress-label">Turn 20 ~20,000 tok</div><div class="progress-track"><div class="progress-fill" style="width:30%;background:var(--amber)"></div></div><div class="progress-val">$0.020</div></div>
+  <div class="progress-row"><div class="progress-label">Turn 30 ~38,000 tok</div><div class="progress-track"><div class="progress-fill" style="width:57%;background:var(--amber)"></div></div><div class="progress-val">$0.038</div></div>
+  <div class="progress-row"><div class="progress-label">Turn 45 ~67,000 tok</div><div class="progress-track"><div class="progress-fill" style="width:100%;background:var(--red)"></div></div><div class="progress-val">$0.067</div></div>
+  <p style="font-size:.72rem;color:var(--ink3);font-family:var(--mono);margin-top:4px;">Per call on Haiku. Sonnet is 3× these values. Opus is 5×.</p>
+
+  <h3>/compact in 10 seconds</h3>
+  <div class="code">Run it:      /compact
+When:        Every ~20 turns, or before switching sub-tasks
+One-time cost: ~$0.08 (Haiku) to compact a 67k-tok session
+Saves:       ~$0.06 per call × every remaining call in session
+Skip it if:  You are mid-debug and need exact prior messages</div>
+
+  <h3>The five rules that pay for themselves immediately</h3>
+  <ul class="rule-list">
+    <li><span class="rule-icon ok">1</span><span>New session per task — history never accumulates beyond the task</span></li>
+    <li><span class="rule-icon ok">2</span><span>/compact at turn 20 — costs $0.08, saves $1+ on every long session</span></li>
+    <li><span class="rule-icon ok">3</span><span>Paste the method, not the file — saves 2,600 tok on every code call</span></li>
+    <li><span class="rule-icon ok">4</span><span>Append output format to every prompt — halves output token count</span></li>
+    <li><span class="rule-icon ok">5</span><span>Reference KB by section heading — model reads 20 lines not 575</span></li>
+  </ul>
+</section>
+
+<div class="footer">
+  Token Cost Playbook · Developer Edition · Generated May 2026 ·
+  Budget: $10 USD/day · S$12.60/day · S$378/month · S$4,536/year ·
+  Models: Haiku $1/$5 · Sonnet $3/$15 · Opus $5/$25 per MTok ·
+  All costs are estimates — actual costs vary with session length and content
+</div>
+
+</main>
+
+<script>
+const sections = document.querySelectorAll('.section');
+const navItems = document.querySelectorAll('.nav-item');
+
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      const id = e.target.id;
+      navItems.forEach(n => {
+        n.classList.toggle('active', n.getAttribute('href') === '#' + id);
+      });
+    }
+  });
+}, { rootMargin: '-30% 0px -60% 0px' });
+
+sections.forEach(s => obs.observe(s));
+</script>
+</body>
+</html>

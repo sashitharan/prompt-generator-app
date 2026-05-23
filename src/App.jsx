@@ -1,10 +1,9 @@
 import { useState } from 'react';
-import { Sparkles, Lightbulb, FileText, Copy, Check, Zap, Hash, Scissors } from 'lucide-react';
+import { Sparkles, Copy, Check, Zap, Scissors, BookOpen } from 'lucide-react';
 import PromptBuilder from './components/PromptBuilder';
-import BestPractices from './components/BestPractices';
-import Examples from './components/Examples';
 import TokenCounter from './components/TokenCounter';
 import PromptCleaner from './components/PromptCleaner';
+import TokenCostPlaybook from './components/TokenCostPlaybook';
 import './App.css';
 
 function estimateTokens(text) {
@@ -26,8 +25,7 @@ function App() {
   const tabs = [
     { id: 'builder', label: 'Prompt Builder', icon: Sparkles },
     { id: 'cleaner', label: 'Prompt Cleaner', icon: Scissors },
-    { id: 'practices', label: 'Best Practices', icon: Lightbulb },
-    { id: 'examples', label: 'Examples', icon: FileText },
+    { id: 'playbook', label: 'Token Playbook', icon: BookOpen },
   ];
 
   return (
@@ -36,7 +34,7 @@ function App() {
         <div className="header-content">
           <div className="logo">
             <Sparkles size={32} />
-            <h1>AI Prompt Generator</h1>
+            <h1>Fix My Prompt</h1>
           </div>
           <p className="subtitle">
             Build lean, effective prompts — save context costs, get better results
@@ -69,9 +67,8 @@ function App() {
             />
           )}
           {activeTab === 'cleaner' && <PromptCleaner />}
-          {activeTab === 'practices' && <BestPractices />}
-          {activeTab === 'examples' && <Examples />}
           {activeTab === 'counter' && <TokenCounter generatedPrompt={generatedPrompt} />}
+          {activeTab === 'playbook' && <TokenCostPlaybook />}
         </div>
 
         {generatedPrompt && (
