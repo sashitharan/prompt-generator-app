@@ -1,5 +1,12 @@
-import { CheckCircle, XCircle } from 'lucide-react';
-import { bestPractices, improvementTips } from '../data/promptTemplates';
+import { CheckCircle, XCircle, Zap } from 'lucide-react';
+import { bestPractices, improvementTips, tokenRules } from '../data/promptTemplates';
+
+const TAG_LABELS = {
+  context: 'Context',
+  output: 'Output',
+  workflow: 'Workflow',
+  strategy: 'Strategy',
+};
 
 function BestPractices() {
   return (
@@ -7,6 +14,38 @@ function BestPractices() {
       <div className="practices-header">
         <h2>Best Practices for Prompting AI Agents</h2>
         <p>Learn what makes prompts effective based on how AI agents process information</p>
+      </div>
+
+      <div className="team-rules-section">
+        <div className="team-rules-header">
+          <Zap size={20} />
+          <h2>{tokenRules.length} Rules to Minimise Token Costs</h2>
+        </div>
+        <p className="team-rules-subtext">These rules apply across all AI tools. If you only enforce five, make it these:</p>
+        <div className="quick-wins">
+          {tokenRules.filter(r => r.topPick).map(r => (
+            <div key={r.id} className="quick-win-rule">
+              <span className="quick-win-number">{r.number}</span>
+              <div>
+                <strong>{r.title}</strong>
+                <p>{r.principle}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+        <div className="rules-grid">
+          {tokenRules.map(r => (
+            <div key={r.id} className={`rule-card ${r.topPick ? 'rule-card--highlight' : ''}`}>
+              <div className="rule-card-top">
+                <span className="rule-card-number">{r.number}</span>
+                <span className={`rule-card-tag rule-card-tag--${r.tag}`}>{TAG_LABELS[r.tag]}</span>
+              </div>
+              <h3>{r.title}</h3>
+              <p className="rule-card-principle">{r.principle}</p>
+              {r.example && <p className="rule-card-example">{r.example}</p>}
+            </div>
+          ))}
+        </div>
       </div>
 
       <div className="practices-grid">

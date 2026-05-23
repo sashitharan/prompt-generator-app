@@ -1,13 +1,49 @@
 import { useState } from 'react';
-import { Sparkles, ChevronDown, ChevronUp } from 'lucide-react';
+import { Sparkles, Zap, Layout, ChevronDown, ChevronUp } from 'lucide-react';
 import { promptTemplates } from '../data/promptTemplates';
+import CraftBuilder from './CraftBuilder';
 
-function PromptBuilder({ onGenerate, generatedPrompt }) {
+const MODES = [
+  { id: 'craft', label: 'CRAFT Builder', icon: Zap, desc: 'Lean, purposeful prompts. Fewer tokens, better results.' },
+  { id: 'template', label: 'Templates', icon: Layout, desc: 'Category templates for common tasks.' },
+  { id: 'enhance', label: 'Quick Enhance', icon: Sparkles, desc: 'Paste your prompt — we\'ll structure it.' },
+];
+
+function PromptBuilder({ onGenerate }) {
+  const [mode, setMode] = useState('craft');
+
+  return (
+    <div className="prompt-builder">
+      <div className="builder-mode-tabs">
+        {MODES.map(m => {
+          const Icon = m.icon;
+          return (
+            <button
+              key={m.id}
+              className={`mode-tab ${mode === m.id ? 'active' : ''}`}
+              onClick={() => setMode(m.id)}
+            >
+              <Icon size={16} />
+              <div className="mode-tab-text">
+                <span className="mode-tab-label">{m.label}</span>
+                <span className="mode-tab-desc">{m.desc}</span>
+              </div>
+            </button>
+          );
+        })}
+      </div>
+
+      {mode === 'craft' && <CraftBuilder onGenerate={onGenerate} />}
+      {mode === 'template' && <TemplateMode onGenerate={onGenerate} />}
+      {mode === 'enhance' && <EnhanceMode onGenerate={onGenerate} />}
+    </div>
+  );
+}
+
+function TemplateMode({ onGenerate }) {
   const [selectedCategory, setSelectedCategory] = useState('');
   const [selectedTemplate, setSelectedTemplate] = useState(null);
   const [formData, setFormData] = useState({});
-  const [customPrompt, setCustomPrompt] = useState('');
-  const [activeSection, setActiveSection] = useState(null);
 
   const categories = Object.keys(promptTemplates);
 
@@ -15,248 +51,246 @@ function PromptBuilder({ onGenerate, generatedPrompt }) {
     setSelectedCategory(category);
     setSelectedTemplate(null);
     setFormData({});
-    setCustomPrompt('');
   };
 
   const handleTemplateSelect = (template) => {
     setSelectedTemplate(template);
-    // Initialize form data with template fields
     const fields = extractFields(template.template);
-    const initialData = {};
-    fields.forEach(field => {
-      initialData[field] = '';
-    });
-    setFormData(initialData);
-    setCustomPrompt('');
+    const initial = {};
+    fields.forEach(f => { initial[f] = ''; });
+    setFormData(initial);
   };
 
   const extractFields = (template) => {
     const regex = /\{([^}]+)\}/g;
     const fields = [];
     let match;
-    while ((match = regex.exec(template)) !== null) {
-      fields.push(match[1]);
-    }
-    return [...new Set(fields)]; // Remove duplicates
+    while ((match = regex.exec(template)) !== null) fields.push(match[1]);
+    return [...new Set(fields)];
   };
 
   const handleInputChange = (field, value) => {
-    setFormData(prev => ({
-      ...prev,
-      [field]: value
-    }));
+    setFormData(prev => ({ ...prev, [field]: value }));
   };
 
-  const generatePromptFromTemplate = () => {
-    if (!selectedTemplate) return;
+  const cleanPrompt = (prompt) => {
+    // Remove lines that are only a bullet/dash label with no value: "- Label: "
+    const lines = prompt.split('\n');
+    const kept = lines.filter(line => {
+      const trimmed = line.trim();
+      // Drop list items where value is empty: "- Anything: " with nothing after colon
+      if (/^[-•]\s+[^:]+:\s*$/.test(trimmed)) return false;
+      return true;
+    });
 
+    let result = kept.join('\n');
+
+    // Remove section headers (**Header:**) immediately followed by blank line(s) and then another header or end
+    result = result.replace(/\*\*[^*\n]+:\*\*\s*\n(?=\n*(?:\*\*|\n|$))/g, '');
+
+    // Collapse 3+ blank lines → 2
+    result = result.replace(/\n{3,}/g, '\n\n').trim();
+    return result;
+  };
+
+  const generatePrompt = () => {
+    if (!selectedTemplate) return;
     let prompt = selectedTemplate.template;
-    // Replace placeholders with form data
+
     Object.keys(formData).forEach(key => {
       const regex = new RegExp(`\\{${key}\\}`, 'g');
-      prompt = prompt.replace(regex, formData[key] || `[${key}]`);
+      prompt = prompt.replace(regex, formData[key] || '');
     });
-    
-    onGenerate(prompt);
+
+    onGenerate(cleanPrompt(prompt));
   };
 
-  const generateCustomPrompt = () => {
-    if (!customPrompt.trim()) return;
-    
-    // Enhance the custom prompt with suggestions
-    const enhanced = enhancePrompt(customPrompt);
-    onGenerate(enhanced);
-  };
+  const filledCount = Object.values(formData).filter(v => v.trim()).length;
+  const totalFields = Object.keys(formData).length;
 
-  const enhancePrompt = (prompt) => {
-    let enhanced = prompt;
-    
-    // Add structure suggestions if missing
-    if (!hasStructure(prompt)) {
-      enhanced = addStructure(prompt);
-    }
-    
-    // Add context reminders if missing
-    if (!hasContext(prompt)) {
-      enhanced = addContextReminders(enhanced);
-    }
-    
-    return enhanced;
-  };
+  return (
+    <div className="template-mode">
+      <div className="category-selector">
+        <label>Category</label>
+        <select
+          value={selectedCategory}
+          onChange={e => handleCategorySelect(e.target.value)}
+          className="select-input"
+        >
+          <option value="">Select a category...</option>
+          {categories.map(cat => (
+            <option key={cat} value={cat}>
+              {cat.charAt(0).toUpperCase() + cat.slice(1).replace(/-/g, ' ')}
+            </option>
+          ))}
+        </select>
+      </div>
 
-  const hasStructure = (prompt) => {
-    return prompt.includes('**') || 
-           prompt.includes('1.') || 
-           prompt.includes('-') ||
-           prompt.split('\n').length > 3;
-  };
+      {selectedCategory && (
+        <div className="template-list">
+          <label>Template</label>
+          <div className="template-grid">
+            {promptTemplates[selectedCategory].map(template => (
+              <button
+                key={template.id}
+                onClick={() => handleTemplateSelect(template)}
+                className={`template-card ${selectedTemplate?.id === template.id ? 'active' : ''}`}
+              >
+                <h3>{template.name}</h3>
+                <p>{template.description}</p>
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
 
-  const addStructure = (prompt) => {
-    return `**Context:**
+      {selectedTemplate && (
+        <div className="template-form">
+          <div className="template-form-header">
+            <h3>Fill in the details</h3>
+            <span className="field-progress">{filledCount} / {totalFields} filled</span>
+          </div>
+          <p className="template-lean-tip">
+            Only fill what's relevant — empty fields are automatically removed from the prompt.
+          </p>
+          <div className="form-fields">
+            {extractFields(selectedTemplate.template).map(field => (
+              <div key={field} className="form-field">
+                <label htmlFor={field}>
+                  {field.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase())}
+                </label>
+                <textarea
+                  id={field}
+                  value={formData[field] || ''}
+                  onChange={e => handleInputChange(field, e.target.value)}
+                  placeholder={`Enter ${field.replace(/_/g, ' ')}...`}
+                  className="form-textarea"
+                  rows={2}
+                />
+              </div>
+            ))}
+          </div>
+          <button onClick={generatePrompt} className="generate-button">
+            <Sparkles size={18} />
+            Generate Prompt
+          </button>
+        </div>
+      )}
+    </div>
+  );
+}
+
+function EnhanceMode({ onGenerate }) {
+  const [customPrompt, setCustomPrompt] = useState('');
+  const [framework, setFramework] = useState('craft');
+
+  const FRAMEWORKS = [
+    { id: 'craft', label: 'CRAFT', desc: 'Context → Goal → Steps → Rules → Format' },
+    { id: 'costar', label: 'CO-STAR', desc: 'Context → Objective → Style → Tone → Audience → Response' },
+    { id: 'risen', label: 'RISEN', desc: 'Role → Instructions → Steps → End Goal → Narrowing' },
+  ];
+
+  const enhance = (prompt) => {
+    if (framework === 'craft') {
+      return `**Context:**
 ${prompt}
 
-**What I need:**
-[Specify what you need - solution, explanation, code, etc.]
+**Goal:**
+[What specific outcome do you need?]
 
-**Constraints/Requirements:**
-[Add any specific requirements, preferences, or constraints]
+**Steps:**
+[Optional: list steps if order matters]
 
-**Expected Output:**
-[Describe the format or style you want for the response]`;
-  };
+**Rules & Constraints:**
+[Tech stack, conventions, what to avoid]
 
-  const hasContext = (prompt) => {
-    const contextKeywords = ['building', 'working on', 'using', 'have', 'need', 'want'];
-    return contextKeywords.some(keyword => 
-      prompt.toLowerCase().includes(keyword)
-    );
-  };
+**Output Format:**
+[How should the response be structured?]`;
+    }
+    if (framework === 'costar') {
+      return `**Context:**
+${prompt}
 
-  const addContextReminders = (prompt) => {
-    return prompt + '\n\n**Tip:** Consider adding more context about your project, tech stack, or specific requirements for better results.';
-  };
+**Objective:**
+[What do you want to achieve?]
 
-  const toggleSection = (section) => {
-    setActiveSection(activeSection === section ? null : section);
+**Style:**
+[Formal / casual / technical / conversational]
+
+**Tone:**
+[Helpful / authoritative / concise / detailed]
+
+**Audience:**
+[Who will read this? What's their expertise level?]
+
+**Response Format:**
+[How should the AI structure the response?]`;
+    }
+    if (framework === 'risen') {
+      return `**Role:**
+[What role should the AI take on?]
+
+**Instructions:**
+${prompt}
+
+**Steps:**
+[Break down the task into clear steps]
+
+**End Goal:**
+[What does success look like?]
+
+**Narrowing:**
+[Constraints, limitations, scope restrictions]`;
+    }
+    return prompt;
   };
 
   return (
-    <div className="prompt-builder">
-      <div className="builder-header">
-        <Sparkles className="builder-icon" size={24} />
-        <h2>Interactive Prompt Builder</h2>
-        <p>Build effective prompts step by step</p>
+    <div className="enhance-mode">
+      <div className="enhance-framework-selector">
+        <label>Structure Framework</label>
+        <div className="framework-pills">
+          {FRAMEWORKS.map(f => (
+            <button
+              key={f.id}
+              className={`framework-pill ${framework === f.id ? 'active' : ''}`}
+              onClick={() => setFramework(f.id)}
+              title={f.desc}
+            >
+              {f.label}
+            </button>
+          ))}
+        </div>
+        <p className="framework-desc">{FRAMEWORKS.find(f => f.id === framework)?.desc}</p>
       </div>
 
-      <div className="builder-options">
-        <div className="option-section">
-          <button
-            className="section-toggle"
-            onClick={() => toggleSection('template')}
-          >
-            <span>Use Template</span>
-            {activeSection === 'template' ? (
-              <ChevronUp size={20} />
-            ) : (
-              <ChevronDown size={20} />
-            )}
-          </button>
-          {activeSection === 'template' && (
-            <div className="template-selector">
-              <div className="category-selector">
-                <label>Category:</label>
-                <select
-                  value={selectedCategory}
-                  onChange={(e) => handleCategorySelect(e.target.value)}
-                  className="select-input"
-                >
-                  <option value="">Select a category...</option>
-                  {categories.map(cat => (
-                    <option key={cat} value={cat}>
-                      {cat.charAt(0).toUpperCase() + cat.slice(1)}
-                    </option>
-                  ))}
-                </select>
-              </div>
+      <textarea
+        value={customPrompt}
+        onChange={e => setCustomPrompt(e.target.value)}
+        placeholder="Paste your rough prompt here — we'll restructure it using your chosen framework."
+        className="custom-prompt-input"
+        rows={6}
+      />
 
-              {selectedCategory && (
-                <div className="template-list">
-                  <label>Templates:</label>
-                  <div className="template-grid">
-                    {promptTemplates[selectedCategory].map(template => (
-                      <button
-                        key={template.id}
-                        onClick={() => handleTemplateSelect(template)}
-                        className={`template-card ${
-                          selectedTemplate?.id === template.id ? 'active' : ''
-                        }`}
-                      >
-                        <h3>{template.name}</h3>
-                        <p>{template.description}</p>
-                      </button>
-                    ))}
-                  </div>
-                </div>
-              )}
-
-              {selectedTemplate && (
-                <div className="template-form">
-                  <h3>Fill in the details:</h3>
-                  <div className="form-fields">
-                    {extractFields(selectedTemplate.template).map(field => (
-                      <div key={field} className="form-field">
-                        <label htmlFor={field}>
-                          {field.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase())}:
-                        </label>
-                        <textarea
-                          id={field}
-                          value={formData[field] || ''}
-                          onChange={(e) => handleInputChange(field, e.target.value)}
-                          placeholder={`Enter ${field.replace(/_/g, ' ')}...`}
-                          className="form-textarea"
-                          rows={3}
-                        />
-                      </div>
-                    ))}
-                  </div>
-                  <button
-                    onClick={generatePromptFromTemplate}
-                    className="generate-button"
-                  >
-                    <Sparkles size={18} />
-                    Generate Prompt
-                  </button>
-                </div>
-              )}
-            </div>
-          )}
-        </div>
-
-        <div className="option-section">
-          <button
-            className="section-toggle"
-            onClick={() => toggleSection('custom')}
-          >
-            <span>Custom Prompt</span>
-            {activeSection === 'custom' ? (
-              <ChevronUp size={20} />
-            ) : (
-              <ChevronDown size={20} />
-            )}
-          </button>
-          {activeSection === 'custom' && (
-            <div className="custom-prompt-section">
-              <textarea
-                value={customPrompt}
-                onChange={(e) => setCustomPrompt(e.target.value)}
-                placeholder="Type your prompt here... I'll help enhance it with better structure and context."
-                className="custom-prompt-input"
-                rows={8}
-              />
-              <div className="prompt-tips">
-                <strong>Tips:</strong>
-                <ul>
-                  <li>Be specific about what you need</li>
-                  <li>Include context about your project or situation</li>
-                  <li>Mention any constraints or requirements</li>
-                  <li>Specify the format you want for the response</li>
-                </ul>
-              </div>
-              <button
-                onClick={generateCustomPrompt}
-                className="generate-button"
-                disabled={!customPrompt.trim()}
-              >
-                <Sparkles size={18} />
-                Enhance & Generate Prompt
-              </button>
-            </div>
-          )}
-        </div>
+      <div className="prompt-tips">
+        <strong>Quick tips:</strong>
+        <ul>
+          <li>Write your core idea — don't worry about structure yet</li>
+          <li>Mention your tech stack if relevant</li>
+          <li>Add any constraints or "must not" rules</li>
+        </ul>
       </div>
+
+      <button
+        onClick={() => onGenerate(enhance(customPrompt))}
+        className="generate-button"
+        disabled={!customPrompt.trim()}
+      >
+        <Sparkles size={18} />
+        Enhance & Structure
+      </button>
     </div>
   );
 }
 
 export default PromptBuilder;
-

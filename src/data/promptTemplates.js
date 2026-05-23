@@ -43,9 +43,7 @@ Here's my code:
 {error_message}
 
 **What I've tried:**
-{tried_solutions}
-
-Please help me debug this issue step by step.`,
+{tried_solutions}`,
       description: 'Get help debugging specific issues'
     },
     {
@@ -62,15 +60,7 @@ Please help me debug this issue step by step.`,
 **Constraints:**
 - Tech stack preferences: {tech_stack}
 - Performance requirements: {performance}
-- Scale expectations: {scale}
-
-**Questions:**
-1. What architecture pattern would work best?
-2. How should I structure the project?
-3. What components/modules should I prioritize?
-4. Any specific design patterns to consider?
-
-Please provide a detailed architecture recommendation with justifications.`,
+- Scale expectations: {scale}`,
       description: 'Plan application architecture with expert guidance'
     },
     {
@@ -89,9 +79,7 @@ Please provide a detailed architecture recommendation with justifications.`,
 **Requirements:**
 - Maintain functionality: {maintain_functionality}
 - Performance goals: {performance_goals}
-- Style preferences: {style_preferences}
-
-Please provide a refactored version with explanations of the improvements made.`,
+- Style preferences: {style_preferences}`,
       description: 'Refactor code while maintaining functionality'
     }
   ],
@@ -99,9 +87,7 @@ Please provide a refactored version with explanations of the improvements made.`
     {
       id: 'data-analysis',
       name: 'Data Analysis',
-      template: `I need help analyzing this dataset to answer the following questions:
-
-**Primary Questions:**
+      template: `**Primary Questions:**
 {questions}
 
 **Dataset Context:**
@@ -117,17 +103,13 @@ Please provide a refactored version with explanations of the improvements made.`
 - {additional_goals}
 
 **Preferred format for results:**
-{output_format}
-
-Please provide a comprehensive analysis with clear explanations.`,
+{output_format}`,
       description: 'Analyze data and extract meaningful insights'
     },
     {
       id: 'problem-solving',
       name: 'Problem Solving',
-      template: `I'm facing a challenge and need your help to solve it systematically:
-
-**Problem Statement:**
+      template: `**Problem Statement:**
 {problem_statement}
 
 **Context:**
@@ -140,9 +122,7 @@ Please provide a comprehensive analysis with clear explanations.`,
 {success_criteria}
 
 **What I've considered so far:**
-{considered_approaches}
-
-Please break down the problem, analyze potential solutions, and recommend the best approach with justification.`,
+{considered_approaches}`,
       description: 'Systematic problem-solving with structured approach'
     }
   ],
@@ -150,7 +130,7 @@ Please break down the problem, analyze potential solutions, and recommend the be
     {
       id: 'content-writing',
       name: 'Content Writing',
-      template: `I need help writing {content_type} with the following requirements:
+      template: `Content type: {content_type}
 
 **Topic/Subject:**
 {topic}
@@ -168,15 +148,13 @@ Please break down the problem, analyze potential solutions, and recommend the be
 {length}
 
 **Additional Requirements:**
-{additional_requirements}
-
-Please create {content_type} that meets these requirements.`,
+{additional_requirements}`,
       description: 'Generate high-quality content tailored to your needs'
     },
     {
       id: 'brainstorming',
       name: 'Brainstorming',
-      template: `I need creative ideas for {subject}. Here's what I'm looking for:
+      template: `Subject: {subject}
 
 **Goal:**
 {goal}
@@ -190,7 +168,7 @@ Please create {content_type} that meets these requirements.`,
 **Preference for ideas:**
 {idea_preferences}
 
-Please provide {number} diverse and creative ideas, ranked by feasibility and impact.`,
+Number of ideas: {number}`,
       description: 'Generate creative ideas and solutions'
     }
   ],
@@ -198,7 +176,7 @@ Please provide {number} diverse and creative ideas, ranked by feasibility and im
     {
       id: 'explain-concept',
       name: 'Explain Concept',
-      template: `Please explain {concept} to me. Here's what I need:
+      template: `Concept: {concept}
 
 **My Current Understanding:**
 {current_understanding}
@@ -213,15 +191,13 @@ Please provide {number} diverse and creative ideas, ranked by feasibility and im
 {learning_style}
 
 **Questions I Have:**
-{questions}
-
-Please explain this clearly with examples and answer my specific questions.`,
+{questions}`,
       description: 'Get clear explanations tailored to your learning level'
     },
     {
       id: 'learning-path',
       name: 'Learning Path',
-      template: `I want to learn {subject}. Help me create a structured learning path:
+      template: `Subject: {subject}
 
 **Current Knowledge Level:**
 {current_level}
@@ -236,9 +212,7 @@ Please explain this clearly with examples and answer my specific questions.`,
 {learning_methods}
 
 **End Goal:**
-{end_goal}
-
-Please create a step-by-step learning path with resources and milestones.`,
+{end_goal}`,
       description: 'Design a structured learning journey'
     }
   ],
@@ -246,77 +220,28 @@ Please create a step-by-step learning path with resources and milestones.`,
     {
       id: 'jira-story',
       name: 'Jira Story Creation',
-      template: `I need to create a comprehensive Jira user story. Please generate a well-structured story with all required components.
+      template: `Jira story — {story_title}
+Epic: {epic_context}
+Story: As a {user_type}, I want {feature_capability} to {business_value}.
+Priority: {priority} | Points: {story_points}
 
-**Epic/Larger Context:**
-{epic_context}
+Stack: {tech_stack} | Existing: {current_system_state}
+Dependencies: {dependencies} | Integrates: {integration_points}
 
-**User Story (As a... I want... So that...):**
-- As a: {user_type}
-- I want: {feature_capability}
-- So that: {business_value}
-
-**Detailed Requirements:**
+Requirements:
 {detailed_requirements}
 
-**Current System State:**
-{current_system_state}
+Business rules: {business_rules}
 
-**Technical Context:**
-- Tech Stack: {tech_stack}
-- Related Components/Services: {related_components}
-- Dependencies: {dependencies}
-- Integration Points: {integration_points}
+Edge cases: {edge_cases}
 
-**Business Rules & Constraints:**
-{business_rules}
-{constraints}
-
-**Edge Cases to Consider:**
-{edge_cases}
-
-**Acceptance Criteria:**
-Please generate detailed acceptance criteria that cover:
-1. Happy path scenarios
-2. Error handling and edge cases
-3. Validation requirements
-4. Performance expectations (if applicable)
-5. Security considerations (if applicable)
-6. UI/UX requirements (if applicable)
-7. Backward compatibility (if applicable)
-
-**Definition of Done:**
-- [ ] Code implemented and reviewed
-- [ ] Unit tests written and passing
-- [ ] Integration tests passing
-- [ ] Documentation updated
-- [ ] QA verified
-- [ ] {additional_dod_items}
-
-**Priority:**
-{priority}
-
-**Estimated Story Points:**
-{story_points}
-
-**Additional Notes:**
-{additional_notes}
-
-Please generate:
-1. A well-formatted Jira story description
-2. Complete acceptance criteria list (minimum 5-7 criteria)
-3. Technical implementation notes
-4. Test scenarios to consider
-5. Any risks or dependencies
-6. Suggested subtasks (if applicable)`,
+DoD: {dod_items}`,
       description: 'Create comprehensive Jira stories with acceptance criteria and technical details'
     },
     {
       id: 'test-cases-generation',
       name: 'Test Cases Generation',
-      template: `I need comprehensive test cases for the following feature/functionality. Please generate test cases covering all scenarios.
-
-**Feature/Functionality:**
+      template: `**Feature/Functionality:**
 {feature_description}
 
 **Technical Context:**
@@ -360,53 +285,13 @@ Please generate:
 {security_considerations}
 
 **Test Data Requirements:**
-{test_data_requirements}
-
-Please generate test cases covering:
-1. **Positive Test Cases** (happy path scenarios)
-   - Test Case ID, Description, Pre-conditions, Test Steps, Expected Results, Priority
-   
-2. **Negative Test Cases** (error handling, invalid inputs)
-   - Test Case ID, Description, Pre-conditions, Test Steps, Expected Results, Priority
-   
-3. **Boundary Value Test Cases**
-   - Test minimum, maximum, and boundary values
-   
-4. **Integration Test Cases**
-   - Test interactions with other systems/components
-   
-5. **Performance Test Cases** (if applicable)
-   - Load, stress, and performance scenarios
-   
-6. **Security Test Cases** (if applicable)
-   - Authentication, authorization, input validation, data protection
-   
-7. **Regression Test Cases**
-   - Verify existing functionality is not broken
-   
-8. **Accessibility Test Cases** (if UI)
-   - WCAG compliance, screen reader compatibility
-   
-For each test case, please include:
-- Test Case ID (format: TC-XXX)
-- Test Case Title
-- Description
-- Pre-conditions
-- Test Steps (numbered)
-- Test Data
-- Expected Result
-- Actual Result (to be filled during execution)
-- Priority (High/Medium/Low)
-- Test Type (Functional/Integration/Performance/Security)
-- Traceability to Requirement/Story ID`,
+{test_data_requirements}`,
       description: 'Generate comprehensive test cases covering all scenarios and edge cases'
     },
     {
       id: 'test-analysis',
       name: 'Test Case Analysis & Review',
-      template: `I need you to analyze and improve the following test cases. Please review for completeness, identify gaps, and suggest improvements.
-
-**Feature/Functionality Being Tested:**
+      template: `**Feature/Functionality Being Tested:**
 {feature_description}
 
 **Current Test Cases:**
@@ -433,51 +318,13 @@ For each test case, please include:
 - Requirements Traceability: {traceability_required}
 
 **Areas of Concern:**
-{areas_of_concern}
-
-Please provide:
-1. **Gap Analysis**
-   - Missing test scenarios
-   - Uncovered requirements
-   - Missing edge cases
-   - Missing negative test cases
-   - Missing integration scenarios
-
-2. **Test Case Quality Review**
-   - Are test cases clear and unambiguous?
-   - Do they have proper pre-conditions?
-   - Are expected results specific and measurable?
-   - Is test data properly defined?
-   - Are test cases traceable to requirements?
-
-3. **Improvement Recommendations**
-   - Specific test cases to add
-   - Test cases that need revision
-   - Prioritization of test cases
-   - Test execution order suggestions
-
-4. **Risk Assessment**
-   - High-risk areas not covered by tests
-   - Critical functionality that needs more testing
-   - Areas prone to defects
-
-5. **Test Coverage Analysis**
-   - Current coverage estimation
-   - Coverage gaps
-   - Suggestions to improve coverage
-
-6. **Test Automation Opportunities**
-   - Test cases suitable for automation
-   - Test cases that should remain manual
-   - Automation priority recommendations`,
+{areas_of_concern}`,
       description: 'Analyze and improve existing test cases with gap analysis and recommendations'
     },
     {
       id: 'pr-description',
       name: 'Pull Request Description',
-      template: `I need a comprehensive pull request description. Please generate a well-structured PR description following best practices.
-
-**PR Title:**
+      template: `**PR Title:**
 {pr_title}
 
 **Type of Change:**
@@ -541,21 +388,13 @@ Please provide:
 - [ ] Dependent changes documented
 
 **Reviewer Notes:**
-{reviewer_notes}
-
-Please generate:
-1. A clear PR description with all sections filled
-2. Appropriate checkboxes checked
-3. Testing instructions
-4. Any warnings or considerations for reviewers`,
+{reviewer_notes}`,
       description: 'Create comprehensive PR descriptions with all necessary details'
     },
     {
       id: 'technical-documentation',
       name: 'Technical Documentation',
-      template: `I need comprehensive technical documentation. Please generate well-structured documentation following best practices.
-
-**Documentation Type:**
+      template: `**Documentation Type:**
 {type} (API Documentation / Architecture / Design Doc / User Guide / Developer Guide / Deployment Guide)
 
 **Topic/Subject:**
@@ -591,67 +430,13 @@ Please generate:
 - Detail Level: {detail_level}
 
 **Prerequisites Knowledge:**
-{prerequisites}
-
-Please generate documentation including:
-1. **Overview/Introduction**
-   - Purpose and scope
-   - Target audience
-   - Prerequisites
-
-2. **Architecture/Design** (if applicable)
-   - System architecture
-   - Design decisions
-   - Diagrams/flowcharts
-   - Component descriptions
-
-3. **API/Function Reference** (if applicable)
-   - Endpoint/Method descriptions
-   - Parameters and return types
-   - Request/Response examples
-   - Error codes and handling
-
-4. **Usage Instructions**
-   - Step-by-step guide
-   - Code examples
-   - Common use cases
-   - Best practices
-
-5. **Configuration**
-   - Environment variables
-   - Configuration files
-   - Setup instructions
-
-6. **Troubleshooting**
-   - Common issues
-   - Error messages and solutions
-   - Debugging tips
-
-7. **Examples**
-   - Basic examples
-   - Advanced examples
-   - Real-world scenarios
-
-8. **References**
-   - Related documentation
-   - External resources
-   - Glossary of terms
-
-Ensure the documentation is:
-- Clear and easy to follow
-- Well-organized with proper headings
-- Includes practical examples
-- Has proper code formatting
-- Covers edge cases
-- Is up-to-date and accurate`,
+{prerequisites}`,
       description: 'Generate comprehensive technical documentation with examples and structure'
     },
     {
       id: 'requirements-gathering',
       name: 'Requirements Gathering',
-      template: `I need help gathering and documenting comprehensive requirements for a project/feature. Please help structure the requirements gathering process.
-
-**Project/Feature:**
+      template: `**Project/Feature:**
 {project_feature}
 
 **Business Context:**
@@ -685,64 +470,13 @@ Ensure the documentation is:
 {budget_constraints}
 
 **Questions to Answer:**
-{questions}
-
-Please help structure:
-1. **Functional Requirements**
-   - Core features and capabilities
-   - User workflows
-   - Business rules
-   - Data requirements
-
-2. **Non-Functional Requirements**
-   - Performance requirements
-   - Security requirements
-   - Scalability requirements
-   - Availability requirements
-   - Usability requirements
-   - Compatibility requirements
-
-3. **User Stories**
-   - Personas involved
-   - User journeys
-   - Acceptance criteria
-
-4. **Technical Requirements**
-   - Architecture requirements
-   - Integration requirements
-   - Infrastructure requirements
-   - Security requirements
-
-5. **Data Requirements**
-   - Data model
-   - Data flow
-   - Data validation rules
-   - Data retention policies
-
-6. **Risk Assessment**
-   - Technical risks
-   - Business risks
-   - Timeline risks
-
-7. **Open Questions**
-   - Clarifications needed
-   - Decisions required
-   - Dependencies to resolve
-
-8. **Requirements Validation Checklist**
-   - Are requirements clear and unambiguous?
-   - Are requirements testable?
-   - Are requirements traceable to business goals?
-   - Are dependencies identified?
-   - Are assumptions documented?`,
+{questions}`,
       description: 'Structure comprehensive requirements gathering and documentation'
     },
     {
       id: 'bug-report',
       name: 'Bug Report Template',
-      template: `I need to create a comprehensive bug report. Please help structure all necessary information.
-
-**Bug Title:**
+      template: `**Bug Title:**
 {bug_title}
 
 **Priority:**
@@ -799,23 +533,13 @@ Please help structure:
 {additional_context}
 
 **Attachments:**
-{attachments}
-
-Please generate:
-1. A well-formatted bug report
-2. Clear reproduction steps
-3. Suggested investigation steps for developers
-4. Recommended test cases to prevent regression
-5. Priority justification
-6. Suggested labels/tags`,
+{attachments}`,
       description: 'Create detailed bug reports with all necessary information for developers'
     },
     {
       id: 'code-review-checklist',
       name: 'Code Review Checklist',
-      template: `I need a comprehensive code review. Please review the code against best practices and provide structured feedback.
-
-**PR/Ticket:**
+      template: `**PR/Ticket:**
 {pr_ticket}
 
 **Code to Review:**
@@ -830,69 +554,7 @@ Please generate:
 - Breaking Changes: {breaking_changes}
 
 **Review Focus Areas:**
-{focus_areas}
-
-Please review for:
-1. **Code Quality**
-   - Code readability and clarity
-   - Naming conventions
-   - Code organization and structure
-   - DRY principles (Don't Repeat Yourself)
-   - SOLID principles adherence
-   - Code comments and documentation
-
-2. **Functionality**
-   - Logic correctness
-   - Edge case handling
-   - Error handling
-   - Input validation
-   - Business logic implementation
-
-3. **Performance**
-   - Algorithm efficiency
-   - Database query optimization
-   - N+1 query problems
-   - Memory usage
-   - Resource leaks
-
-4. **Security**
-   - Input sanitization
-   - SQL injection vulnerabilities
-   - XSS vulnerabilities
-   - Authentication/Authorization
-   - Sensitive data handling
-   - Secrets management
-
-5. **Testing**
-   - Test coverage adequacy
-   - Test quality
-   - Missing test cases
-   - Test organization
-
-6. **Architecture & Design**
-   - Design pattern usage
-   - Separation of concerns
-   - Coupling and cohesion
-   - Scalability considerations
-
-7. **Maintainability**
-   - Code complexity
-   - Technical debt
-   - Future extensibility
-   - Documentation quality
-
-8. **Best Practices**
-   - Language-specific best practices
-   - Framework conventions
-   - Project style guide adherence
-
-Please provide:
-- Overall assessment
-- Specific issues with line numbers
-- Suggestions for improvement
-- Questions for clarification
-- Approve/Request Changes recommendation
-- Priority of issues (Critical/High/Medium/Low)`,
+{focus_areas}`,
       description: 'Comprehensive code review checklist covering all aspects'
     }
   ],
@@ -900,9 +562,7 @@ Please provide:
     {
       id: 'social-media-caption',
       name: 'Social Media Caption',
-      template: `I need help creating a compelling social media caption. Please generate captions that meet all platform and engagement requirements.
-
-**Platform:**
+      template: `**Platform:**
 {platform} (Instagram / Facebook / Twitter / LinkedIn / TikTok / Pinterest)
 
 **Campaign/Context:**
@@ -963,25 +623,7 @@ Please provide:
 {competitor_examples}
 
 **Performance Notes from Past Posts:**
-{performance_notes}
-
-Please generate:
-1. **Primary Caption** (optimized for platform character limit)
-2. **Alternative Version** (for A/B testing)
-3. **Hashtag Set** (organized by category)
-4. **Story Caption** (if applicable)
-5. **First Comment** (if splitting hashtags)
-6. **Engagement Prompt** (question or call-to-action to encourage comments)
-7. **Timing Recommendations** (best times to post based on audience)
-
-Ensure the caption:
-- Matches brand voice exactly
-- Includes specified CTA
-- Stays within character limits
-- Uses appropriate tone for platform
-- Encourages engagement
-- Is clear and compelling
-- Follows platform best practices`,
+{performance_notes}`,
       description: 'Create platform-optimized social media captions with brand voice and engagement strategy'
     },
     {
@@ -1110,9 +752,7 @@ Ensure the prompt:
     {
       id: 'ad-copy',
       name: 'Ad Copy Creation',
-      template: `I need help creating compelling ad copy for my advertising campaign. Please generate ad copy that drives conversions and aligns with my brand.
-
-**Campaign Details:**
+      template: `**Campaign Details:**
 - Campaign Name: {campaign_name}
 - Campaign Goal: {campaign_goal} (Brand Awareness / Lead Generation / Sales / App Installs / Website Traffic / Engagement)
 - Campaign Timeline: {timeline}
@@ -1181,55 +821,13 @@ Ensure the prompt:
 - Previous Performance: {previous_performance}
 
 **Legal/Compliance:**
-{legal_requirements}
-
-Please generate:
-1. **Primary Ad Copy**
-   - Headline (attention-grabbing, benefit-focused)
-   - Subheadline/Description (supporting message, more details)
-   - CTA Button Text
-   - Display URL/Sitelink Extensions
-   - Ad Extensions Ideas
-
-2. **Alternative Variations** (3-5 versions for A/B testing)
-   - Different angles (benefit-focused / problem-focused / emotional)
-   - Different CTAs
-   - Different headline approaches
-
-3. **Mobile-Optimized Version** (if applicable)
-   - Shorter versions for mobile screens
-
-4. **Ad Extensions** (if applicable)
-   - Sitelinks
-   - Callouts
-   - Structured Snippets
-   - Call Extensions
-
-5. **Keywords/Targeting Insights** (if search ads)
-   - Suggested keywords
-   - Negative keywords
-
-6. **A/B Testing Recommendations**
-   - Which elements to test
-   - Hypothesis for each variation
-
-Ensure the ad copy:
-- Follows platform character limits exactly
-- Includes strong, specific CTA
-- Addresses target audience pain points
-- Highlights unique value proposition
-- Creates urgency or emotional connection
-- Is compliant with platform policies
-- Matches brand voice perfectly
-- Is optimized for the ad format`,
+{legal_requirements}`,
       description: 'Create conversion-focused ad copy with platform specifications and brand alignment'
     },
     {
       id: 'email-campaign',
       name: 'Email Campaign Copy',
-      template: `I need help creating effective email marketing copy. Please generate email content that drives opens, clicks, and conversions.
-
-**Campaign Type:**
+      template: `**Campaign Type:**
 {campaign_type} (Newsletter / Promotional / Welcome Series / Abandoned Cart / Product Launch / Event Invitation / Educational / Re-engagement)
 
 **Campaign Goal:**
@@ -1295,57 +893,13 @@ Ensure the ad copy:
 {legal_requirements} (Unsubscribe link / Privacy notice / Disclaimers)
 
 **Previous Email Context:**
-{previous_email_context} (If part of sequence, what was in previous emails?)
-
-Please generate:
-1. **Subject Line Options** (5 variations)
-   - Include open rate optimization tips
-   - Specify preview text for each
-   - Explain why each might perform well
-
-2. **Email Body Structure**
-   - Opening/Hook (attention-grabbing first sentence)
-   - Value Statement (why this matters to reader)
-   - Main Content (key message, offer details)
-   - Social Proof Section (if applicable)
-   - CTA Section (clear, compelling call-to-action)
-   - Closing/Signature
-
-3. **Full Email Copy**
-   - Complete email text
-   - Formatting suggestions (bold, italics, spacing)
-   - CTA button text and styling suggestions
-
-4. **Plain Text Version** (if HTML email)
-   - Simplified text-only version
-
-5. **Mobile Optimization Notes**
-   - How it reads on mobile
-   - Any adjustments needed
-
-6. **A/B Testing Recommendations**
-   - Subject lines to test
-   - Content variations to test
-   - CTA variations to test
-
-Ensure the email:
-- Grabs attention immediately
-- Is scannable (short paragraphs, bullets)
-- Has clear hierarchy
-- Includes strong, specific CTAs
-- Creates appropriate urgency
-- Is mobile-friendly
-- Matches brand voice
-- Provides clear value
-- Respects subscriber preferences`,
+{previous_email_context}`,
       description: 'Create engaging email campaigns with optimized subject lines and conversion-focused copy'
     },
     {
       id: 'blog-post-seo',
       name: 'SEO Blog Post Content',
-      template: `I need help creating SEO-optimized blog content that ranks well and engages readers. Please generate comprehensive blog post content.
-
-**Blog Post Purpose:**
+      template: `**Blog Post Purpose:**
 {purpose} (Educate / Inform / Entertain / Convert / Build Authority / Generate Leads)
 
 **Topic/Subject:**
@@ -1405,77 +959,13 @@ Ensure the email:
 - Meta Description (150-160 chars): {meta_description}
 
 **Schema Markup:**
-{schema_needed} (Yes / No / Type: {schema_type})
-
-Please generate:
-1. **SEO-Optimized Title**
-   - Primary title (includes target keyword)
-   - Alternative titles (3 variations for A/B testing)
-   - Title length and optimization notes
-
-2. **Meta Description**
-   - Compelling description (150-160 characters)
-   - Includes primary keyword
-   - Has clear CTA
-   - Alternative versions (3)
-
-3. **Blog Post Outline**
-   - H1 (main title)
-   - H2 sections (main topics)
-   - H3 subsections (supporting points)
-   - Key points under each section
-   - Suggested word count per section
-
-4. **Introduction Paragraph**
-   - Hook (attention-grabbing opening)
-   - Keyword integration (natural)
-   - What reader will learn
-   - Establishes authority/relevance
-
-5. **Main Content Structure**
-   - Detailed outline with key points
-   - Suggested headings
-   - Internal linking opportunities
-   - External link suggestions
-
-6. **Conclusion Section**
-   - Summarizes key points
-   - Reinforces value
-   - Includes CTA
-   - Encourages engagement (comments/shares)
-
-7. **SEO Checklist**
-   - Keyword density recommendations
-   - Header tag optimization
-   - Image alt text suggestions
-   - Internal linking strategy
-   - External link opportunities
-   - Schema markup suggestions
-
-8. **Engagement Elements**
-   - Questions to ask readers
-   - Discussion prompts
-   - Related content suggestions
-
-Ensure the content:
-- Naturally incorporates target keywords
-- Provides comprehensive coverage of topic
-- Is scannable (headings, bullets, short paragraphs)
-- Includes actionable insights
-- Has logical flow and structure
-- Is optimized for featured snippets
-- Includes relevant internal/external links
-- Maintains brand voice throughout
-- Is the right length for search intent
-- Encourages reader engagement`,
+{schema_needed} (Yes / No / Type: {schema_type})`,
       description: 'Create SEO-optimized blog content with proper structure and keyword integration'
     },
     {
       id: 'brand-voice-guide',
       name: 'Brand Voice Guidelines',
-      template: `I need help creating comprehensive brand voice guidelines for consistent AI-generated content. Please generate detailed brand voice documentation.
-
-**Brand Name:**
+      template: `**Brand Name:**
 {brand_name}
 
 **Industry:**
@@ -1543,57 +1033,10 @@ Ensure the content:
 - Good Examples: {good_examples}
 - Bad Examples: {bad_examples}
 
-Please generate:
-1. **Brand Voice Statement**
-   - 2-3 sentence summary of brand voice
-   - What makes it unique
-   - Core personality traits
-
-2. **Detailed Voice Characteristics**
-   - Tone description (detailed)
-   - Style description
-   - Voice spectrum (formal vs casual scale)
-   - Personality dimensions
-
-3. **Voice Guidelines by Channel**
-   - How voice adapts by platform
-   - Channel-specific considerations
-   - Adaptation rules
-
-4. **Writing Principles**
-   - Core principles for all content
-   - Grammar and style preferences
-   - Formatting guidelines
-
-5. **Voice Examples**
-   - Example A: {example_scenario_a}
-   - Example B: {example_scenario_b}
-   - Example C: {example_scenario_c}
-   - Show how to write in brand voice for each
-
-6. **Quick Reference Guide**
-   - One-page checklist
-   - "Does this sound like us?" test
-   - Red flags to watch for
-
-7. **AI Prompt Template for Brand Voice**
-   - Template for prompting AI to write in brand voice
-   - Key phrases to include in prompts
-   - Voice modifiers for AI
-
-8. **Training Examples**
-   - Before and After examples
-   - Common mistakes and corrections
-   - Voice refinement exercises
-
-Ensure the guidelines:
-- Are clear and actionable
-- Include concrete examples
-- Are easy to reference quickly
-- Cover all communication channels
-- Can be used to train AI agents
-- Help maintain consistency
-- Are specific enough to avoid ambiguity`,
+**Example Scenarios:**
+- Scenario A: {example_scenario_a}
+- Scenario B: {example_scenario_b}
+- Scenario C: {example_scenario_c}`,
       description: 'Create comprehensive brand voice guidelines for consistent AI-generated content'
     }
   ]
@@ -1601,6 +1044,20 @@ Ensure the guidelines:
 
 // Best practices for prompts
 export const bestPractices = {
+  craft: {
+    title: 'Use the CRAFT Framework',
+    description: 'CRAFT is the most token-efficient way to write prompts. Each section earns its place — skip anything that doesn\'t apply.',
+    goodExample: `Act as a senior backend engineer.
+
+**Context:** Node.js API, PostgreSQL, JWT auth.
+
+**Goal:** Write a rate-limiting middleware for login failures.
+
+**Rules & Constraints:** Use ioredis. Return 429 with retry-after header.
+
+**Output Format:** Code + 3-4 bullet caveats.`,
+    badExample: 'Write me a rate limiter for my app. Include all edge cases and make it production ready and also add tests and documentation please.'
+  },
   clarity: {
     title: 'Be Clear and Specific',
     description: 'Vague prompts lead to vague answers. State exactly what you need.',
@@ -1715,10 +1172,8 @@ Here's a sample of the data:
 - Product B: $30k revenue, -5% decline
 - Product C: $75k revenue, 25% growth
 
-[Full dataset available if needed]
-
-Please analyze this and provide insights with actionable recommendations.`,
-      whyGood: ['Specific questions listed', 'Data sample provided', 'Clear analysis goals', 'Asks for actionable insights']
+[Full dataset available if needed]`,
+      whyGood: ['Specific questions listed', 'Data sample provided', 'Clear analysis goals', 'No meta-instructions — context drives the output']
     }
   },
   {
@@ -1751,77 +1206,27 @@ Include a call-to-action at the end encouraging readers to assess their business
       issues: ['No user story format', 'Missing acceptance criteria', 'No technical context', 'No dependencies mentioned', 'No edge cases']
     },
     good: {
-      prompt: `I need to create a comprehensive Jira user story. Please generate a well-structured story with all required components.
+      prompt: `Jira story — User Login (Email + Password)
+Epic: User Auth & Authorization — secure login, session management
+Story: As a registered user, I want email+password login to access my account and personalized features.
+Priority: High | Points: 5
 
-**Epic/Larger Context:**
-User Authentication and Authorization Epic - Enable secure user login and session management
+Stack: Node.js, Express, PostgreSQL, JWT, Redis, bcrypt | Existing: registration done, users table, bcrypt hashing in place
+Dependencies: user registration complete | Integrates: email service (notifications), Redis (sessions)
 
-**User Story (As a... I want... So that...):**
-- As a: Registered user
-- I want: To log in using email and password
-- So that: I can access my account and personalized features
+Requirements:
+- Email/password validation → JWT on success + refresh token
+- Rate limit: 5 attempts/15min; lockout 30min after 5 fails
+- JWT TTL 15min, refresh TTL 7 days
+- Password: min 8 chars, upper + lower + number + special char
+- GDPR compliant
 
-**Detailed Requirements:**
-- Email and password validation
-- JWT token generation on successful login
-- Session management with refresh tokens
-- Rate limiting (5 attempts per 15 minutes)
-- Password reset functionality (separate story)
+Business rules: account locked 30min after 5 fails; JWT TTL 15min; refresh 7d; GDPR compliant
 
-**Current System State:**
-- User registration is implemented
-- Database schema exists for users table
-- Password hashing using bcrypt is in place
+Edge cases: repeated wrong password, unknown email, token expiry mid-session, concurrent logins, DB failure during auth
 
-**Technical Context:**
-- Tech Stack: Node.js, Express.js, PostgreSQL, JWT
-- Related Components/Services: User service, Auth middleware, Email service
-- Dependencies: Depends on user registration being completed
-- Integration Points: Email service for notifications, Redis for session storage
-
-**Business Rules & Constraints:**
-- Password must be minimum 8 characters with uppercase, lowercase, number, special char
-- Account locked after 5 failed attempts for 30 minutes
-- JWT tokens expire in 15 minutes, refresh tokens in 7 days
-- Must comply with GDPR data protection requirements
-
-**Edge Cases to Consider:**
-- User enters incorrect password multiple times
-- User tries to login with non-existent email
-- Token expiration during active session
-- Concurrent login attempts from different devices
-- Database connection failure during authentication
-
-**Acceptance Criteria:**
-Please generate detailed acceptance criteria that cover:
-1. Happy path scenarios
-2. Error handling and edge cases
-3. Validation requirements
-4. Performance expectations (if applicable)
-5. Security considerations (if applicable)
-6. UI/UX requirements (if applicable)
-7. Backward compatibility (if applicable)
-
-**Definition of Done:**
-- [ ] Code implemented and reviewed
-- [ ] Unit tests written and passing (coverage > 80%)
-- [ ] Integration tests passing
-- [ ] Security review completed
-- [ ] Documentation updated
-- [ ] QA verified
-- [ ] Performance tested (response time < 200ms)
-
-**Priority:** High
-**Estimated Story Points:** 5
-
-Please generate:
-1. A well-formatted Jira story description
-2. Complete acceptance criteria list (minimum 5-7 criteria)
-3. Technical implementation notes
-4. Test scenarios to consider
-5. Any risks or dependencies
-6. Suggested subtasks (if applicable)`,
-      whyGood: ['Complete user story format', 'Detailed technical context', 'All dependencies listed', 'Edge cases identified', 'Clear acceptance criteria structure', 'Definition of Done specified']
+DoD: unit tests >80%, integration tests, security review, docs updated, QA verified, p95 <200ms`,
+      whyGood: ['No meta-instructions — just data', 'User story collapsed to one sentence', 'Dense notation (TTL 15min vs "expires in 15 minutes")', 'DoD is one line, non-obvious items only', 'Model infers AC, subtasks, risks from context']
     }
   },
   {
@@ -1831,106 +1236,19 @@ Please generate:
       issues: ['Too vague', 'No test scenario details', 'Missing edge cases', 'No test data specified', 'No test structure defined']
     },
     good: {
-      prompt: `I need comprehensive test cases for the following feature/functionality. Please generate test cases covering all scenarios.
+      prompt: `Feature: User login (email + password)
+Stack: Node.js, Express, PostgreSQL, JWT | Modules: AuthController, AuthService, UserRepository
+Endpoint: POST /api/auth/login | Tables: users, sessions | Integrates: Redis (rate limiting), email service (lockout notification)
 
-**Feature/Functionality:**
-User login with email and password authentication
+Business rules: lockout 30min after 5 fails; JWT TTL 15min; refresh 7d; bcrypt hashing
 
-**Technical Context:**
-- Technology Stack: Node.js, Express.js, PostgreSQL, JWT
-- Component/Module: AuthController, AuthService, UserRepository
-- Related Systems: Email service, Redis for rate limiting
-- API Endpoints: POST /api/auth/login
-- Database Tables: users, sessions
+Current behavior: endpoint returns 500 on password validation
+Expected: 200+token (valid), 401 (invalid), 403 (locked), 429+retry-after (rate limited)
 
-**User Requirements:**
-- User can log in with valid email and password
-- User receives JWT token upon successful login
-- User session is tracked in Redis
-- Failed login attempts are rate limited
+Edge cases: empty fields, unknown email, correct password but locked account, token expiry during request, DB/Redis connection failure, max attempts reached
 
-**Acceptance Criteria:**
-1. User with valid credentials can successfully log in
-2. JWT token is returned on successful login
-3. Invalid credentials return 401 error
-4. Account is locked after 5 failed attempts
-5. Rate limiting prevents brute force attacks
-6. Session is created in Redis on successful login
-
-**Business Rules:**
-- Password must match hashed password in database
-- Account locked for 30 minutes after 5 failed attempts
-- JWT token expires in 15 minutes
-- Refresh token expires in 7 days
-
-**Current Behavior:**
-Login endpoint exists but returns 500 error on password validation
-
-**Expected Behavior:**
-- Valid credentials: Return 200 with JWT token and user data
-- Invalid credentials: Return 401 with error message
-- Locked account: Return 403 with lockout message
-- Rate limit exceeded: Return 429 with retry-after header
-
-**Input/Output Specifications:**
-- Valid Inputs: Valid email format, password 8+ chars
-- Invalid Inputs: Invalid email, wrong password, empty fields
-- Expected Outputs: 200 with token, 401 with error, 403 with lockout
-- Error Messages: "Invalid credentials", "Account locked", "Rate limit exceeded"
-
-**Edge Cases & Boundary Conditions:**
-- Empty email or password fields
-- Email not in database
-- Password correct but account is locked
-- Token expiration during request
-- Database connection failure
-- Redis connection failure
-- Maximum login attempts reached
-
-**Integration Points:**
-- Database: User lookup and password verification
-- Redis: Session storage and rate limiting
-- Email Service: Notification on account lockout
-
-**Performance Requirements:**
-- Response time < 200ms for successful login
-- Handle 100 concurrent login requests
-- Database queries optimized with indexes
-
-**Security Considerations:**
-- Passwords must be hashed (bcrypt)
-- JWT tokens must be signed
-- Rate limiting to prevent brute force
-- Input sanitization and validation
-- SQL injection prevention
-- XSS prevention in error messages
-
-**Test Data Requirements:**
-- Valid user: email: test@example.com, password: Test123!@#
-- Invalid user: email: invalid@example.com
-- Locked user account
-- Multiple test users for concurrent testing
-
-Please generate test cases covering:
-1. **Positive Test Cases** (happy path scenarios)
-2. **Negative Test Cases** (error handling, invalid inputs)
-3. **Boundary Value Test Cases**
-4. **Integration Test Cases**
-5. **Performance Test Cases**
-6. **Security Test Cases**
-7. **Regression Test Cases**
-
-For each test case, please include:
-- Test Case ID (format: TC-XXX)
-- Test Case Title
-- Description
-- Pre-conditions
-- Test Steps (numbered)
-- Test Data
-- Expected Result
-- Priority (High/Medium/Low)
-- Test Type (Functional/Integration/Performance/Security)`,
-      whyGood: ['Complete technical context', 'All test scenarios covered', 'Detailed test data requirements', 'Edge cases identified', 'Structured test case format', 'Security considerations included', 'Performance requirements specified']
+Test data: valid test@example.com / Test123!@#, invalid@example.com, pre-locked account, concurrent users`,
+      whyGood: ['No meta-instructions — data only', 'Dense notation (TTL 15min, lockout 30min)', 'All edge cases listed concisely', 'Expected outputs specified as status codes', 'Model infers positive/negative/boundary/security test cases from context']
     }
   },
   {
@@ -1940,9 +1258,7 @@ For each test case, please include:
       issues: ['No brand voice specified', 'Missing target audience', 'No CTA mentioned', 'No character limit specified', 'No hashtag strategy', 'No engagement goals', 'No platform-specific considerations']
     },
     good: {
-        prompt: `I need help creating a compelling social media caption. Please generate captions that meet all platform and engagement requirements.
-
-**Platform:**
+        prompt: `**Platform:**
 Instagram
 
 **Campaign/Context:**
@@ -1999,26 +1315,8 @@ Comments, Shares, Saves (for shopping later)
 - Story highlights: Add to "New Collection" story highlight
 
 **Performance Notes from Past Posts:**
-Product launch posts with behind-the-scenes content perform 3x better. Captions with questions get 40% more comments.
-
-Please generate:
-1. **Primary Caption** (optimized for platform character limit)
-2. **Alternative Version** (for A/B testing)
-3. **Hashtag Set** (organized by category)
-4. **Story Caption** (if applicable)
-5. **First Comment** (if splitting hashtags)
-6. **Engagement Prompt** (question or call-to-action to encourage comments)
-7. **Timing Recommendations** (best times to post based on audience)
-
-Ensure the caption:
-- Matches brand voice exactly
-- Includes specified CTA
-- Stays within character limits
-- Uses appropriate tone for platform
-- Encourages engagement
-- Is clear and compelling
-- Follows platform best practices`,
-        whyGood: ['Complete brand voice guidelines', 'Detailed target audience', 'Platform-specific considerations', 'Hashtag strategy defined', 'Engagement goals specified', 'Character limits respected', 'Performance insights included', 'Multiple variations for testing']
+Product launch posts with behind-the-scenes content perform 3x better. Captions with questions get 40% more comments.`,
+        whyGood: ['No meta-instructions — data only', 'Brand voice described in concrete terms (not just "professional")', 'Hashtag strategy defined with counts', 'Past performance data included', 'Character limits + CTA specified — model handles the rest']
       }
     },
     {
@@ -2028,9 +1326,7 @@ Ensure the caption:
         issues: ['Too vague - what product?', 'No style specified', 'No composition details', 'Missing brand colors', 'No technical specs', 'No lighting preferences', 'No mood/atmosphere', 'Unclear dimensions']
       },
       good: {
-        prompt: `I need help creating a detailed, effective prompt for AI image generation (DALL-E, Midjourney, Stable Diffusion). Please generate a comprehensive prompt that will produce the exact image I need.
-
-**Image Purpose:**
+        prompt: `**Image Purpose:**
 Social Media Post - Instagram feed post showcasing new product launch
 
 **Subject/Scene:**
@@ -2085,26 +1381,166 @@ Optimized for Instagram feed (1:1 square), mobile-first viewing, high contrast f
 Watermarks, text, people, hands, busy backgrounds, cluttered compositions, harsh shadows, low quality, blurry, distorted, wrong colors
 
 **Iteration Notes:**
-This is first version. May need adjustments to lighting intensity or product positioning based on results.
-
-Please generate:
-1. **Primary Prompt** (concise, optimized for AI image generation)
-2. **Detailed Prompt** (if platform allows longer descriptions)
-3. **Negative Prompt** (explicitly state what to avoid)
-4. **Prompt Variations** (3 alternative versions for testing)
-5. **Style Keywords** (extracted for easy modification)
-6. **Refinement Suggestions** (how to iterate if first result isn't perfect)
-
-Ensure the prompt:
-- Is specific and descriptive
-- Uses standard AI art terminology
-- Avoids ambiguity
-- Includes technical parameters
-- References style clearly
-- Specifies composition elements
-- Is optimized for the target AI model`,
+This is first version. May need adjustments to lighting intensity or product positioning based on results.`,
         whyGood: ['Complete style specification', 'Brand colors specified', 'Technical specs detailed', 'Composition clearly defined', 'Reference style provided', 'Negative prompt included', 'Platform optimization noted', 'Iteration strategy outlined']
       }
     }
+];
+
+// Organisation token-saving rules
+export const tokenRules = [
+  {
+    id: 'minimize-context',
+    number: 1,
+    title: 'Minimize Context Size',
+    principle: 'Include only relevant snippets — not entire files or logs.',
+    example: '"Focus on lines 120–180" instead of pasting the whole file.',
+    tag: 'context',
+    topPick: true,
+  },
+  {
+    id: 'concise-outputs',
+    number: 2,
+    title: 'Ask for Concise Outputs',
+    principle: 'Models are verbose unless constrained. Specify limits explicitly.',
+    example: '"Limit response to 5 bullet points" or "Max 150 words" or "Code only"',
+    tag: 'output',
+    topPick: true,
+  },
+  {
+    id: 'iterative-narrowing',
+    number: 3,
+    title: 'Iterate in Small Steps',
+    principle: 'Generate approach → validate → generate code → optimize. Not everything at once.',
+    example: 'Instead of "Build full system + tests + docs", get the approach first, then code.',
+    tag: 'workflow',
+    topPick: true,
+  },
+  {
+    id: 'reuse-prompts',
+    number: 4,
+    title: 'Reuse Proven Prompts',
+    principle: 'Maintain a prompt library for repeated tasks — reviews, debugging, API design.',
+    example: 'Standard prompts eliminate re-explanation overhead and reduce trial-and-error.',
+    tag: 'workflow',
+    topPick: false,
+  },
+  {
+    id: 'constrain-task',
+    number: 5,
+    title: 'Constrain the Task Strictly',
+    principle: 'Narrow scope = shorter response + fewer iterations.',
+    example: '"Reduce O(n²) to O(n log n), same interface, no new dependencies" — not "Improve this code"',
+    tag: 'context',
+    topPick: false,
+  },
+  {
+    id: 'control-format',
+    number: 6,
+    title: 'Control Output Format',
+    principle: 'Always specify format to eliminate reformatting and clarification turns.',
+    example: '"Return JSON only" or "Follow this exact schema" or "No explanations"',
+    tag: 'output',
+    topPick: false,
+  },
+  {
+    id: 'stop-early',
+    number: 7,
+    title: 'Stop at 80–90% Good Enough',
+    principle: 'The last 10% of "perfection" consumes disproportionate tokens.',
+    example: 'If the result is usable, take it and refine manually rather than re-prompting.',
+    tag: 'strategy',
+    topPick: false,
+  },
+  {
+    id: 'debug-smart',
+    number: 8,
+    title: 'Debug Smart',
+    principle: 'Provide: error message + relevant function only + inputs causing failure.',
+    example: 'Most debugging needs <10% of typical context. Skip the full repo and full logs.',
+    tag: 'context',
+    topPick: false,
+  },
+  {
+    id: 'haiku-first',
+    number: 9,
+    title: 'Use Haiku First, Escalate Later',
+    principle: 'Test and refine your prompt on Haiku before running on Sonnet or Opus.',
+    example: 'Ask Haiku: "Improve this prompt for clarity and efficiency" — often eliminates failed runs.',
+    tag: 'strategy',
+    topPick: true,
+  },
+  {
+    id: 'avoid-history',
+    number: 10,
+    title: 'Avoid Redundant Chat History',
+    principle: 'Old context silently increases cost every turn. Start fresh when topics shift.',
+    example: 'Every message in a long thread adds tokens — stale context inflates cost with no benefit.',
+    tag: 'strategy',
+    topPick: false,
+  },
+  {
+    id: 'structured-input',
+    number: 11,
+    title: 'Prefer Structured Input',
+    principle: 'Labelled key-value format is shorter and clearer than narrative prose.',
+    example: '"Context: payment API | Issue: timeout at 5s | Constraint: cannot change DB"',
+    tag: 'context',
+    topPick: false,
+  },
+  {
+    id: 'batch-tasks',
+    number: 12,
+    title: 'Batch Similar Tasks',
+    principle: 'Review multiple items in one call rather than separate calls.',
+    example: '"Review these 5 functions for bugs: …" instead of 5 separate prompts.',
+    tag: 'workflow',
+    topPick: false,
+  },
+  {
+    id: 'no-meta-instructions',
+    number: 13,
+    title: 'Remove Meta-Instructions',
+    principle: 'Don\'t tell the model to "generate a well-structured story" — just give it the data.',
+    example: 'Skip "Please generate a comprehensive X with all required components." The model already knows.',
+    tag: 'context',
+    topPick: true,
+  },
+  {
+    id: 'collapse-labeled-bullets',
+    number: 14,
+    title: 'Collapse Labeled Bullets',
+    principle: '"As a user, I want X to Y" beats "- As a: user / - I want: X / - So that: Y" — 1 line vs 3.',
+    example: 'Merge labeled sub-bullets into one dense sentence or key-value pair.',
+    tag: 'context',
+    topPick: false,
+  },
+  {
+    id: 'trust-model-structure',
+    number: 15,
+    title: 'Trust Model Structure Knowledge',
+    principle: 'Don\'t enumerate output sections the model already knows: AC, subtasks, risks, implementation notes.',
+    example: 'A Jira story prompt doesn\'t need "Please generate: 1. AC list 2. Implementation notes 3. Subtasks"',
+    tag: 'output',
+    topPick: false,
+  },
+  {
+    id: 'dense-notation',
+    number: 16,
+    title: 'Use Dense Notation',
+    principle: 'Key-value pairs and abbreviations beat verbose prose for structured data.',
+    example: '"JWT TTL 15min, refresh 7d" not "JWT tokens expire in 15 minutes, refresh tokens in 7 days"',
+    tag: 'context',
+    topPick: false,
+  },
+  {
+    id: 'one-line-dod',
+    number: 17,
+    title: 'One-Line Definition of Done',
+    principle: 'Replace DoD checklists with a single line of non-obvious constraints only.',
+    example: '"DoD: unit tests >80%, security review, p95 <200ms" — skip "code reviewed", "tests passing" etc.',
+    tag: 'output',
+    topPick: false,
+  },
 ];
 
